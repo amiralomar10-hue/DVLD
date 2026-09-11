@@ -155,6 +155,11 @@ namespace DVLDBusinessLayer
           return clsLicenseData.GetLicenseInfoByPersonID(PersonID);
         }
 
+        public static int GetActiveLicenseIDByPersonID(int PersonID, int LicenseClassID)
+        {
+            return clsLicenseData.GetActiveLicenseIDByPersonID(PersonID, LicenseClassID);
+        }
+
         public static DataTable GetAllLicenses()
         {
             return clsLicenseData.GetAllLicenses();

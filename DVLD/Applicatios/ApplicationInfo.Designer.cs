@@ -174,7 +174,6 @@
             this.latxtApplicationID.Size = new System.Drawing.Size(51, 20);
             this.latxtApplicationID.TabIndex = 5;
             this.latxtApplicationID.Text = "[???]";
-            this.latxtApplicationID.Click += new System.EventHandler(this.latxtApplicationID_Click);
             // 
             // laUser
             // 

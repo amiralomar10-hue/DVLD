@@ -1,20 +1,16 @@
-﻿using DVLD.Licenses;
-using DVLD.Tests;
-using DVLDBusinessLayer;
-using DVLDDataAccessLayer;
-using System;
+﻿using System;
 using System.Data;
 using System.Windows.Forms;
+using DVLD.Licenses;
+using DVLD.Tests;
+using DVLDBusinessLayer;
 
 namespace DVLD.Applicatios
 {
-
     public partial class ApplicationForm : Form
     {
-
         clsLocalDrivingLicenseApplication _Application = new clsLocalDrivingLicenseApplication();
         private DataTable _dtApplications;
-
 
         private void RefreshListApplication()
         {
@@ -22,8 +18,6 @@ namespace DVLD.Applicatios
             dataGridView.DataSource = _dtApplications;
             laCountRecords.Text = dataGridView.Rows.Count.ToString();
         }
-
-
 
         public ApplicationForm()
         {
@@ -52,16 +46,15 @@ namespace DVLD.Applicatios
         {
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
             _Application = clsLocalDrivingLicenseApplication.FindByID(ID);
-            if (_Application.Cancel())
+            if (_Application != null && _Application.Cancel())
             {
-                MessageBox.Show("Done");
+                MessageBox.Show("Application Cancelled Successfully.", "Cancelled", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 RefreshListApplication();
             }
             else
             {
-                MessageBox.Show("Stop");
+                MessageBox.Show("Could not cancel application.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void cbFind_SelectedIndexChanged(object sender, EventArgs e)
@@ -70,7 +63,6 @@ namespace DVLD.Applicatios
             {
                 txtFind.Visible = false;
             }
-
             else
             {
                 txtFind.Visible = true;
@@ -107,8 +99,6 @@ namespace DVLD.Applicatios
 
         private void sechduleTestsToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
-
         }
 
         private void sechduleVisionTestToolStripMenuItem_Click(object sender, EventArgs e)
@@ -117,45 +107,33 @@ namespace DVLD.Applicatios
             TestAppointmentsForm frm = new TestAppointmentsForm(ID, 1);
             frm.ShowDialog();
             RefreshListApplication();
-            sechduleVisionTestToolStripMenuItem.Enabled = false;
-            sechduleWrittenTestToolStripMenuItem.Enabled = true;
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
         }
 
         private void sechduleWrittenTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
             TestAppointmentsForm frm = new TestAppointmentsForm(ID, 2);
             frm.ShowDialog();
             RefreshListApplication();
-            sechduleWrittenTestToolStripMenuItem.Enabled = false;
-            sechduleStreetTestToolStripMenuItem.Enabled = true;
         }
-
         private void contextMenuStrip1_Opening(object sender, System.ComponentModel.CancelEventArgs e)
         {
             if (dataGridView.CurrentRow == null) return;
 
             int localDrivingLicenseApplicationID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
 
-            // جلب بيانات الطلب وعدد الاختبارات الناجحة
             clsLocalDrivingLicenseApplication localDrivingLicenseApplication =
                 clsLocalDrivingLicenseApplication.FindByID(localDrivingLicenseApplicationID);
 
             if (localDrivingLicenseApplication == null) return;
 
             int passedTestsCount = clsTestAppointments.getCountPassedTest(localDrivingLicenseApplicationID);
-            // أو استخدم: clsTestAppointments.getCountPassedTest(localDrivingLicenseApplicationID);
 
-            // -------------------------------------------------------------
-            // 1. إعادة ضبط كل الخيارات إلى حالة التعطيل (Default Reset)
-            // -------------------------------------------------------------
-            showApplicationDelailsToolStripMenuItem.Enabled = true; // العرض متاح دائماً
+            showApplicationDelailsToolStripMenuItem.Enabled = true;
             editApplicationToolStripMenuItem.Enabled = false;
             deleteApplicationToolStripMenuItem.Enabled = false;
             cancelApplicationToolStripMenuItem.Enabled = false;
@@ -167,62 +145,54 @@ namespace DVLD.Applicatios
 
             issueDrivingLicenseFirstTimeToolStripMenuItem.Enabled = false;
             showLicenseToolStripMenuItem.Enabled = false;
-            showPersonLicenseHistoryToolStripMenuItem.Enabled = true; // السجل متاح دائماً
+            showPersonLicenseHistoryToolStripMenuItem.Enabled = true;
 
-            // -------------------------------------------------------------
-            // 2. تطبيق المنطق حسب حالة الطلب (ApplicationStatus)
-            // -------------------------------------------------------------
-            // ملاحظة: Status 1 = New, 2 = Cancelled, 3 = Completed (تأكد من الأرقام في قاعدة بياناتك)
             switch (localDrivingLicenseApplication.ApplicationStatus)
             {
-                case 1: // أو case 1:
-
-                    // إمكانية التعديل والإلغاء والحذف للطلبات الجديدة
+                case 1:
                     editApplicationToolStripMenuItem.Enabled = true;
                     deleteApplicationToolStripMenuItem.Enabled = true;
                     cancelApplicationToolStripMenuItem.Enabled = true;
 
-                    // التحكم بقائمة الاختبارات حسب عدد الاختبارات المكتملة
                     switch (passedTestsCount)
                     {
-                        case 0: // لم يجتز أي اختبار -> فتح اختبار النظر فقط
+                        case 0:
                             sechduleTestsToolStripMenuItem.Enabled = true;
                             sechduleVisionTestToolStripMenuItem.Enabled = true;
                             break;
 
-                        case 1: // اجتاز النظر -> فتح اختبار الكتابة فقط
+                        case 1:
                             sechduleTestsToolStripMenuItem.Enabled = true;
                             sechduleWrittenTestToolStripMenuItem.Enabled = true;
                             break;
 
-                        case 2: // اجتاز الكتابة -> فتح اختبار السياقة (الشارع) فقط
+                        case 2:
                             sechduleTestsToolStripMenuItem.Enabled = true;
                             sechduleStreetTestToolStripMenuItem.Enabled = true;
                             break;
 
-                        case 3: // اجتاز جميع الاختبارات -> فتح خيار إصدار الرخصة لأول مرة
+                        case 3:
                             sechduleTestsToolStripMenuItem.Enabled = false;
                             issueDrivingLicenseFirstTimeToolStripMenuItem.Enabled = true;
                             break;
                     }
                     break;
 
-                case 2: // أو case 2:
-                        // في حالة الإلغاء: يمنع التعديل والحذف والتنسيق للاختبارات والإصدار
-                        // فقط خيارات العرض وتاريخ الرخصة تبقى مفعّلة
+                case 2:
                     break;
 
-                case 3: // أو case 3:
-                        // في حالة الأكتمال: تم إصدار الرخصة سابقاً
+                case 3:
                     showLicenseToolStripMenuItem.Enabled = true;
                     break;
             }
         }
+
         private void sechduleStreetTestToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
             TestAppointmentsForm frm = new TestAppointmentsForm(ID, 3);
-            frm.ShowDialog(); RefreshListApplication();
+            frm.ShowDialog();
+            RefreshListApplication();
         }
 
         private void issueDrivingLicenseFirstTimeToolStripMenuItem_Click(object sender, EventArgs e)
@@ -230,9 +200,7 @@ namespace DVLD.Applicatios
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
             IssueDriverLicense frm = new IssueDriverLicense(ID);
             frm.ShowDialog();
-
             RefreshListApplication();
-
         }
 
         private void showLicenseToolStripMenuItem_Click(object sender, EventArgs e)
@@ -241,18 +209,22 @@ namespace DVLD.Applicatios
             _Application = clsLocalDrivingLicenseApplication.FindByID(ID);
             clsLicense license = clsLicense.FindByAppID(_Application.ApplicationID);
 
-            LicenseInfo frm = new LicenseInfo(license.LicenseID);
-            frm.ShowDialog();
-         
+            if (license != null)
+            {
+                LicenseInfo frm = new LicenseInfo(license.LicenseID);
+                frm.ShowDialog();
+            }
         }
-
         private void showPersonLicenseHistoryToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
             _Application = clsLocalDrivingLicenseApplication.FindByID(ID);
-             int PersonID = _Application.ApplicantPersonID;
-             LicensesForm  frm = new LicensesForm(PersonID);
-            frm.ShowDialog();
+            if (_Application != null)
+            {
+                int PersonID = _Application.ApplicantPersonID;
+                LicensesForm frm = new LicensesForm(PersonID);
+                frm.ShowDialog();
+            }
         }
 
         private void editApplicationToolStripMenuItem_Click(object sender, EventArgs e)
@@ -266,23 +238,23 @@ namespace DVLD.Applicatios
         private void showApplicationDelailsToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
-           ShowApplication frm = new ShowApplication(ID);
-                frm.ShowDialog();   
+            ShowApplication frm = new ShowApplication(ID);
+            frm.ShowDialog();
         }
 
         private void deleteApplicationToolStripMenuItem_Click(object sender, EventArgs e)
         {
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[0].Value);
-            if (MessageBox.Show($"Are you sure you want to delete user [{ID}]", "Confirm Delete", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
+            if (MessageBox.Show($"Are you sure you want to delete Local Driving License Application [{ID}]?", "Confirm Delete", MessageBoxButtons.OKCancel, MessageBoxIcon.Question) == DialogResult.OK)
             {
-                if (clsLocalDrivingLicenseApplication.DeleteApplication(ID))
+                if (clsLocalDrivingLicenseApplication.Delete(ID))
                 {
-                    MessageBox.Show("Done");
+                    MessageBox.Show("Application Deleted Successfully.", "Deleted", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     RefreshListApplication();
                 }
                 else
                 {
-                    MessageBox.Show("Error");
+                    MessageBox.Show("Could not delete application, it might be linked to other data.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
         }

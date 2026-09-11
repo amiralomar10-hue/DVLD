@@ -1,16 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Data.SqlClient;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using ConnectionStringDVLD;
+using System.Data.SqlClient;
+
 namespace DVLDDataAccessLayer
 {
     public class LocalDrivingLicenseApplicationData
     {
         static string connectionstring = ConnectionStringDVLD.Connection.connectionString;
+
         public static bool GetLocalDrivingLicenseApplicationInfoByID(int LocalDrivingLicenseApplicationID,
            ref int ApplicationID, ref int LicenseClassID)
         {
@@ -85,7 +82,29 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                string query = "SELECT \r\n    LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID AS [L.D.L.AppID],\r\n    LicenseClasses.ClassName AS [Driving Class],\r\n    People.NationalNo AS [National No],\r\n    People.FirstName + ' ' + People.SecondName + ' ' + ISNULL(People.ThirdName + ' ', '') + People.LastName AS [Full Name],\r\n    Applications.ApplicationDate AS [Application Date],\r\n    (\r\n        SELECT COUNT(TestAppointments.TestTypeID)\r\n        FROM TestAppointments \r\n        INNER JOIN Tests ON TestAppointments.TestAppointmentID = Tests.TestAppointmentID\r\n        WHERE TestAppointments.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID\r\n          AND Tests.TestResult = 1\r\n    ) AS [Passed Tests],\r\n    CASE \r\n        WHEN Applications.ApplicationStatus = 1 THEN 'New'\r\n        WHEN Applications.ApplicationStatus = 2 THEN 'Cancelled'\r\n        WHEN Applications.ApplicationStatus = 3 THEN 'Completed'\r\n        ELSE 'Unknown'\r\n    END AS [Status]\r\nFROM LocalDrivingLicenseApplications\r\nINNER JOIN Applications ON LocalDrivingLicenseApplications.ApplicationID = Applications.ApplicationID\r\nINNER JOIN LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID\r\nINNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
+                string query = @"SELECT 
+    LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID AS [L.D.L.AppID],
+    LicenseClasses.ClassName AS [Driving Class],
+    People.NationalNo AS [National No],
+    People.FirstName + ' ' + People.SecondName + ' ' + ISNULL(People.ThirdName + ' ', '') + People.LastName AS [Full Name],
+    Applications.ApplicationDate AS [Application Date],
+    (
+        SELECT COUNT(TestAppointments.TestTypeID)
+        FROM TestAppointments 
+        INNER JOIN Tests ON TestAppointments.TestAppointmentID = Tests.TestAppointmentID
+        WHERE TestAppointments.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID
+          AND Tests.TestResult = 1
+    ) AS [Passed Tests],
+    CASE 
+        WHEN Applications.ApplicationStatus = 1 THEN 'New'
+        WHEN Applications.ApplicationStatus = 2 THEN 'Cancelled'WHEN Applications.ApplicationStatus = 3 THEN 'Completed'
+        ELSE 'Unknown'
+    END AS [Status]
+FROM LocalDrivingLicenseApplications
+INNER JOIN Applications ON LocalDrivingLicenseApplications.ApplicationID = Applications.ApplicationID
+INNER JOIN LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID
+INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     try
@@ -101,7 +120,6 @@ namespace DVLDDataAccessLayer
                     }
                     catch (Exception ex)
                     {
-                        // التعامل مع الاستثناء
                     }
                 }
             }
@@ -176,9 +194,7 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"DELETE FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
-
-            SqlCommand command = new SqlCommand(query, connection);
+            string query = @"DELETE FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID"; SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
 
             try
@@ -198,19 +214,23 @@ namespace DVLDDataAccessLayer
             return (rowsAffected > 0);
         }
 
-        public static int IsExistLocalDrivingLicenseApplication(int PersonID ,int LicenseClassID , int Status ) {
-
+        public static int IsExistLocalDrivingLicenseApplication(int PersonID, int LicenseClassID, int Status)
+        {
             int id = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT  LocalDrivingLicenseApplications.ApplicationID  \r\nFROM     Applications INNER JOIN\r\n                  LocalDrivingLicenseApplications ON Applications.ApplicationID = LocalDrivingLicenseApplications.ApplicationID INNER JOIN\r\n                  LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID\r\n Where ApplicantPersonID = @PersonID AND LicenseClasses.LicenseClassID = @LicenseClassID AND ApplicationStatus = @Status\r\n\r\n";
+            string query = @"SELECT LocalDrivingLicenseApplications.ApplicationID  
+                             FROM Applications INNER JOIN
+                             LocalDrivingLicenseApplications ON Applications.ApplicationID = LocalDrivingLicenseApplications.ApplicationID INNER JOIN
+                             LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID
+                             WHERE ApplicantPersonID = @PersonID AND LicenseClasses.LicenseClassID = @LicenseClassID AND ApplicationStatus = @Status";
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
-            command.Parameters.AddWithValue ("@Status", Status);
+            command.Parameters.AddWithValue("@Status", Status);
             try
             {
                 connection.Open();
-                Object result = command.ExecuteScalar();
+                object result = command.ExecuteScalar();
 
                 if (result != null && int.TryParse(result.ToString(), out int insertedID))
                 {
@@ -226,7 +246,43 @@ namespace DVLDDataAccessLayer
             }
 
             return id;
+        }
 
+        public static int GetActiveLicenseIDByPersonID(int PersonID, int LicenseClassID)
+        {
+            int LicenseID = -1;
+
+            using (SqlConnection connection = new SqlConnection(connectionstring))
+            {
+                string query = @"SELECT Licenses.LicenseID 
+                                 FROM Licenses 
+                                 INNER JOIN Drivers ON Licenses.DriverID = Drivers.DriverID
+                                 WHERE Drivers.PersonID = @PersonID 
+                                   AND Licenses.LicenseClassID = @LicenseClassID 
+                                   AND Licenses.IsActive = 1;";
+
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@PersonID", PersonID);
+                    command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
+
+                    try
+                    {
+                        connection.Open();
+                        object result = command.ExecuteScalar();
+
+                        if (result != null && int.TryParse(result.ToString(), out int foundID))
+                        {
+                            LicenseID = foundID;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                    }
+                }
+            }
+
+            return LicenseID;
         }
     }
 }
