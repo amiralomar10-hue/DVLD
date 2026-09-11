@@ -29,37 +29,52 @@ namespace DVLD.Tests
         {
             this.Close();
         }
+
         private clsLicense CreateLicense()
         {
-            clsLicense License = new clsLicense();
-            clsDrivers Driver = new clsDrivers();
-            Driver.PersonID = _Application.ApplicantPersonID;
-            Driver.CreatedByUserID =_Application.CreatedByUserID;
-            Driver.CreatedDate = DateTime.Now;      
+            clsDrivers Driver = clsDrivers.FindByPersonID(_Application.ApplicantPersonID);
 
-            if (Driver.Save())
+
+            if (Driver == null)
             {
-                License.DriverID = Driver.DriverID;
-                License.CreatedByUserID = Driver.CreatedByUserID;
-                License.IssueDate = Driver.CreatedDate;
-                License.PaidFees = Convert.ToDecimal(ldlAppilcationCard1.latxtFees.Text);
-                License.LicenseClassID = Convert.ToInt32(_Application.LicenseClassID);       
-                int Date = Convert.ToInt32(clsLicenseClass.Find(License.LicenseClassID).DefaultValidityLength);
-                License.ExpirationDate = License.IssueDate.AddYears(Date);
-                License.Notes = (String.IsNullOrEmpty(txtNotes.Text)) ? null : txtNotes.Text;
-                License.IssueReason = clsLicense.enIssueReason.FirstTime;
-                License.ApplicationID = _Application.ApplicationID;
-                License.IsActive = true;
-                
-             }
+                Driver = new clsDrivers();
+                Driver.PersonID = _Application.ApplicantPersonID;
+                Driver.CreatedByUserID = _Application.CreatedByUserID;
+                Driver.CreatedDate = DateTime.Now;
+
+                if (!Driver.Save())
+                {
+                    MessageBox.Show("Failed to add new driver!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return null;
+                }
+            }
+
+            // 3. إنشاء الرخصة باستخدام DriverID الأصلي أو الجديد
+            clsLicense License = new clsLicense();
+            License.DriverID = Driver.DriverID;
+            License.CreatedByUserID = _Application.CreatedByUserID;
+            License.IssueDate = DateTime.Now;
+            License.PaidFees = Convert.ToDecimal(ldlAppilcationCard1.latxtFees.Text);
+            License.LicenseClassID = Convert.ToInt32(_Application.LicenseClassID);
+            int validityYears = Convert.ToInt32(clsLicenseClass.Find(License.LicenseClassID).DefaultValidityLength);
+            License.ExpirationDate = License.IssueDate.AddYears(validityYears);
+            License.Notes = string.IsNullOrEmpty(txtNotes.Text) ? null : txtNotes.Text;
+            License.IssueReason = clsLicense.enIssueReason.FirstTime;
+            License.ApplicationID = _Application.ApplicationID;
+            License.IsActive = true;
+
             return License;
         }
         private void bIssue_Click(object sender, EventArgs e)
         {
             _License = CreateLicense();
+
+            if (_License == null)
+                return;
+
             if (_License.Save())
             {
-                MessageBox.Show("License Issued Successfully with License ID = " + _License.LicenseID,"Succeded",MessageBoxButtons.OK , MessageBoxIcon.Information);
+                MessageBox.Show("License Issued Successfully with License ID = " + _License.LicenseID, "Succeeded", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 if (_Application.Complete())
                 {
                     MessageBox.Show("Done");
@@ -67,8 +82,8 @@ namespace DVLD.Tests
             }
             else
             {
-                MessageBox.Show("Stop", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to Issue License", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
+        } 
     }
 }

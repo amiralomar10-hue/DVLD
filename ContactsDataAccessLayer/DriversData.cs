@@ -98,10 +98,20 @@ namespace DVLDDataAccessLayer
 
         public static DataTable GetAllDrivers()
         {
+
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT Drivers.DriverID AS [Driver ID], Drivers.PersonID AS [Person ID], People.NationalNo AS [National No],\r\nPeople.FirstName + People.SecondName + People.ThirdName + People.LastName AS [Full Name] , Drivers.CreatedDate AS [Date] , Licenses.IsActive\r\nFROM     Drivers INNER JOIN\r\n                  People  ON Drivers.PersonID = People.PersonID\r\n\t\t\t\t  INNER JOIN \r\n\t\t\t     Licenses ON Drivers.DriverID = Licenses.DriverID\r\n\t\t\t\t  ";
+                string query = @"SELECT 
+                            Drivers.DriverID AS [Driver ID], 
+                            Drivers.PersonID AS [Person ID], 
+                            People.NationalNo AS [National No],
+                            People.FirstName + ' ' + People.SecondName + ' ' + ISNULL(People.ThirdName + ' ', '') + People.LastName AS [Full Name], 
+                            Drivers.CreatedDate AS [Date],
+                            (SELECT COUNT(*) FROM Licenses WHERE Licenses.DriverID = Drivers.DriverID AND Licenses.IsActive = 1) AS [Active Licenses]
+                         FROM Drivers 
+                         INNER JOIN People ON Drivers.PersonID = People.PersonID";
+
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     connection.Open();
@@ -113,5 +123,30 @@ namespace DVLDDataAccessLayer
             }
             return dt;
         }
+        public static bool GetDriverInfoByPersonID(int PersonID, ref int DriverID, ref int CreatedByUserID, ref DateTime CreatedDate)
+        {
+            bool isFound = false;
+            using (SqlConnection connection = new SqlConnection(connectionString))
+            {
+                string query = "SELECT * FROM Drivers WHERE PersonID = @PersonID";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    command.Parameters.AddWithValue("@PersonID", PersonID);
+                    connection.Open();
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            isFound = true;
+                            DriverID = (int)reader["DriverID"];
+                            CreatedByUserID = (int)reader["CreatedByUserID"];
+                            CreatedDate = (DateTime)reader["CreatedDate"];
+                        }
+                    }
+                }
+            }
+            return isFound;
+        }
+
     }
 }

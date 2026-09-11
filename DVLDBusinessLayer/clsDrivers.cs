@@ -58,5 +58,22 @@ namespace DVLDBusinessLayer
         {
             return clsDriversData.GetAllDrivers();
         }
+
+        public static clsDrivers FindByPersonID(int PersonID)
+        {
+            int DriverID = -1;
+            int CreatedByUserID = -1;
+            DateTime CreatedDate = DateTime.Now;
+
+            if (clsDriversData.GetDriverInfoByPersonID(PersonID, ref DriverID, ref CreatedByUserID, ref CreatedDate))
+            {
+                return new clsDrivers(DriverID, PersonID, CreatedByUserID, CreatedDate);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
     }
 }
