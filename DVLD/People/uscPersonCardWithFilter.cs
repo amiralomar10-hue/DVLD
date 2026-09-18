@@ -6,11 +6,19 @@ namespace DVLD.People
 {
     public partial class uscPersonCardWithFilter : UserControl
     {
-        public bool IsFilter = false;
 
-      
+        public event Action<int> OnPersonSelected;
+        protected virtual void PersonSelected(int PersonID)
+        {
+            Action<int> handler = OnPersonSelected;
+            if (handler != null)
+            {
+                handler(PersonID);
+            }
+        }
+
         public int PersonID => uscPersonCard1.PersonID;
-        public clsPeople SelectedPersonInfo => uscPersonCard1.PersonInfo;
+        public clsPeople SelectedPersonInfo => uscPersonCard1.SelectedPersonInfo;
 
 
         public bool FilterEnabled
@@ -55,6 +63,9 @@ namespace DVLD.People
             comboxFind.SelectedIndex = 0;
             txtFind.Text = PersonID.ToString();
             uscPersonCard1.GetPersonInfo(PersonID);
+
+            if (OnPersonSelected != null && FilterEnabled)
+                OnPersonSelected(PersonID);
         }
 
         private void bSearch_Click(object sender, EventArgs e)
@@ -62,51 +73,36 @@ namespace DVLD.People
             if (string.IsNullOrWhiteSpace(txtFind.Text))
                 return;
 
-            if (comboxFind.Text == "PersonID")
+            switch (comboxFind.Text)
             {
-                if (int.TryParse(txtFind.Text.Trim(), out int ID))
-                {
-                    if (clsPeople.IsExist(ID))
-                    {
-                        if (IsFilter && clsUser.IsUserExistForPersonID(ID))
-                        {
-                            MessageBox.Show("Selected Person already has a user, choose another one.", "Select another Person", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                            uscPersonCard1.ResetPersonInfo();
-                        }
-                        else
-                        {
-                            uscPersonCard1.GetPersonInfo(ID);
-                        }
-                    }
-                    else
-                    {
-                        uscPersonCard1.ResetPersonInfo();
-                        MessageBox.Show("There is no person with PersonID = " + ID, "Fail", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                    }
-                }
+
+                case "PersonID":
+                    if (int.TryParse(txtFind.Text.Trim(), out int personID)) 
+                        uscPersonCard1.GetPersonInfo(int.Parse(txtFind.Text)); break;
+                case "NationalNO":
+                    uscPersonCard1.GetPersonInfo(txtFind.Text); break;
             }
-            else 
-            {
-                string No = txtFind.Text.Trim();
-                if (clsPeople.IsExist(No))
-                {
-                    clsPeople person = clsPeople.GetClsPeopleByNationalNO(No);
-                    if (IsFilter && clsUser.IsUserExistForPersonID(person.PersonID))
-                    {
-                        MessageBox.Show("Selected Person already has a user, choose another one.", "Select another Person", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        uscPersonCard1.ResetPersonInfo();
-                    }
-                    else
-                    {
-                        uscPersonCard1.GetPersonInfo(No);
-                    }
-                }
-                else
-                {
-                    uscPersonCard1.ResetPersonInfo();
-                    MessageBox.Show("There is no person with NationalNo = " + No, "Fail", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-                }
-            }
+
+            if (OnPersonSelected != null && FilterEnabled)
+
+                OnPersonSelected(uscPersonCard1.PersonID);
         }
+       
+
+    
+
+    private void txtFind_KeyPress(object sender, KeyPressEventArgs e)
+    {
+        if (e.KeyChar == (char)13)
+        {
+
+            bSearch.PerformClick();
+        }
+
+        //this will allow only digits if person id is selected
+        if (gbFilter.Text == "PersonID")
+            e.Handled = !char.IsDigit(e.KeyChar) && !char.IsControl(e.KeyChar);
+
     }
+}
 }

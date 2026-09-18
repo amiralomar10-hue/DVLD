@@ -1,5 +1,7 @@
-﻿using System;
+﻿using DVLDDataAccessLayer;
+using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Net;
 using System.Text;
@@ -23,7 +25,7 @@ namespace DVLDBusinessLayer
             CountryID = countryID;
             CountryName = countryName;
         }
-        public static clsCountries GetCountryName(int countryID)
+        public static clsCountries Find(int countryID)
         {
             string countryName = "";
             if (DVLDDataAccessLayer.CountriesData.getCountryNameByID(countryID, ref countryName)) {
@@ -32,5 +34,10 @@ namespace DVLDBusinessLayer
 
             return new clsCountries();
         }
+
+        public static DataTable GetAllCountries() 
+        { 
+             return CountriesData.getAllCountries();
+        }                 
     }
 }

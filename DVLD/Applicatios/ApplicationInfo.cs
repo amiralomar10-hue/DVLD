@@ -8,50 +8,63 @@ namespace DVLD.Applicatios
 {
     public partial class ApplicationInfo : Form
     {
-        int _ID = -1;
-        clsLocalDrivingLicenseApplication _LocalApplication = new clsLocalDrivingLicenseApplication();
+        private int _applicationID = -1;
+        private int _selectedPersonID = -1;
+        private clsLocalDrivingLicenseApplication _localApplication = new clsLocalDrivingLicenseApplication();
 
         public ApplicationInfo()
         {
             InitializeComponent();
+            SubscribeToEvents();
         }
 
-        public ApplicationInfo(int ID)
+        public ApplicationInfo(int applicationID)
         {
             InitializeComponent();
-            _ID = ID;
+            _applicationID = applicationID;
+            SubscribeToEvents();
         }
 
-        public void _FillComboBoxLicenseClass()
+        private void SubscribeToEvents()
         {
-            DataTable dt = clsLicenseClass.GetAllLicenseClasses();
-            cbLicenseClass.DataSource = dt;
+            // الاشتراك بحدث اختيار الشخص من الفلتر
+            uscPersonCardWithFitter1.OnPersonSelected += PersonCardWithFilter_OnPersonSelected;
+        }
+
+        private void PersonCardWithFilter_OnPersonSelected(int personID)
+        {
+            _selectedPersonID = personID;
+        }
+
+        private void _FillLicenseClassesComboBox()
+        {
+            DataTable dtLicenseClasses = clsLicenseClass.GetAllLicenseClasses();
+            cbLicenseClass.DataSource = dtLicenseClasses;
             cbLicenseClass.DisplayMember = "ClassName";
             cbLicenseClass.ValueMember = "LicenseClassID";
-            if (cbLicenseClass.Items.Count > 0)
+
+            if (cbLicenseClass.Items.Count > 2)
                 cbLicenseClass.SelectedIndex = 2;
         }
 
         private void ApplicationInfo_Load(object sender, EventArgs e)
         {
-            _FillComboBoxLicenseClass();
+            _FillLicenseClassesComboBox();
 
             laTitle.Text = "New Local Driving License Application";
             latxtDate.Text = DateTime.Now.ToShortDateString();
-            latxtFees.Text = clsApplicationTypes.GetApplicationTypesInfoByID(1).ApplicationFees.ToString("0.00");
-            latxtUser.Text = GolbalUser.CurrentUser.UserName;
+            latxtFees.Text = clsApplicationTypes.GetApplicationTypesInfoByID(1)?.ApplicationFees.ToString("0.00") ?? "0.00";
+            latxtUser.Text = GolbalUser.CurrentUser?.UserName ?? string.Empty;
 
-            if (_ID != -1)
+            if (_applicationID != -1)
             {
-                _LocalApplication = clsLocalDrivingLicenseApplication.FindByID(_ID);
-                if (_LocalApplication != null)
+                _localApplication = clsLocalDrivingLicenseApplication.FindByID(_applicationID);
+                if (_localApplication != null)
                 {
-                    uscPersonCardWithFitter1.txtFind.Text = _LocalApplication.ApplicantPersonID.ToString();
-                    uscPersonCardWithFitter1.comboxFind.Text = "PersonID";
-                    uscPersonCardWithFitter1.IsFilter = false;
-                    uscPersonCardWithFitter1.uscPersonCard1.GetPersonInfo(_LocalApplication.ApplicantPersonID);
-                    latxtApplicationID.Text = _LocalApplication.LocalDrivingLicenseApplicationID.ToString();
-                    cbLicenseClass.SelectedValue = _LocalApplication.LicenseClassID;
+                    _selectedPersonID = _localApplication.ApplicantPersonID;
+                    uscPersonCardWithFitter1.LoadPersonInfo(_localApplication.ApplicantPersonID);
+                    latxtApplicationID.Text = _localApplication.LocalDrivingLicenseApplicationID.ToString();
+                    cbLicenseClass.SelectedValue = _localApplication.LicenseClassID;
                     laTitle.Text = "Update Local Driving License Application";
                 }
             }
@@ -59,8 +72,7 @@ namespace DVLD.Applicatios
 
         private void bSave_Click(object sender, EventArgs e)
         {
-            int personID = uscPersonCardWithFitter1.PersonID;
-            if (personID == -1 && !int.TryParse(uscPersonCardWithFitter1.uscPersonCard1.latxtPersonID.Text.Trim(), out personID))
+            if (_selectedPersonID == -1)
             {
                 MessageBox.Show("Please select a person first.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
@@ -71,33 +83,34 @@ namespace DVLD.Applicatios
                 MessageBox.Show("Please select a license class.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
+
             int licenseClassID = Convert.ToInt32(cbLicenseClass.SelectedValue);
 
-            int activeLicenseID = clsLicense.GetActiveLicenseIDByPersonID(personID, licenseClassID);
+            int activeLicenseID = clsLicense.GetActiveLicenseIDByPersonID(_selectedPersonID, licenseClassID);
             if (activeLicenseID != -1)
             {
-                MessageBox.Show("The selected person already holds a valid license of this class with ID = [" + activeLicenseID + "]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"The selected person already holds a valid license of this class with ID = [{activeLicenseID}]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             int activeAppID = -1;
-            if (clsLocalDrivingLicenseApplication.IsExistLocalDrivingLicenseApplication(personID, licenseClassID, 1, ref activeAppID))
+            if (clsLocalDrivingLicenseApplication.IsExistLocalDrivingLicenseApplication(_selectedPersonID, licenseClassID, 1, ref activeAppID))
             {
-                MessageBox.Show("Choose another License Class, the selected person already has an active application for this class with ID = [" + activeAppID + "]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Choose another License Class, the selected person already has an active application for this class with ID = [{activeAppID}]", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            _LocalApplication.ApplicantPersonID = personID;
-            _LocalApplication.ApplicationDate = DateTime.Now;
-            _LocalApplication.ApplicationTypeID = 1;
-            _LocalApplication.ApplicationStatus = 1;
-            _LocalApplication.LastStatusDate = DateTime.Now;
-            _LocalApplication.PaidFees = Convert.ToDecimal(latxtFees.Text);
-            _LocalApplication.CreatedByUserID = GolbalUser.CurrentUser.UserID;
-            _LocalApplication.LicenseClassID = licenseClassID;
+            _localApplication.ApplicantPersonID = _selectedPersonID;
+            _localApplication.ApplicationDate = DateTime.Now;
+            _localApplication.ApplicationTypeID = 1;
+            _localApplication.ApplicationStatus = 1;
+            _localApplication.LastStatusDate = DateTime.Now;
+            _localApplication.PaidFees = decimal.TryParse(latxtFees.Text, out decimal fees) ? fees : 0;
+            _localApplication.CreatedByUserID = GolbalUser.CurrentUser.UserID;
+            _localApplication.LicenseClassID = licenseClassID;
 
-            if (_LocalApplication.Save())
+            if (_localApplication.Save())
             {
-                latxtApplicationID.Text = _LocalApplication.LocalDrivingLicenseApplicationID.ToString();
+                latxtApplicationID.Text = _localApplication.LocalDrivingLicenseApplicationID.ToString();
                 MessageBox.Show("Data Saved Successfully.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             else
@@ -106,14 +119,8 @@ namespace DVLD.Applicatios
             }
         }
 
-        private void bNext_Click(object sender, EventArgs e)
-        {
-            tabControl.SelectedIndex = 1;
-        }
+        private void bNext_Click(object sender, EventArgs e) => tabControl.SelectedIndex = 1;
 
-        private void bClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
+        private void bClose_Click(object sender, EventArgs e) => this.Close();
     }
 }

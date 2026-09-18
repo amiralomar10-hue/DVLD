@@ -11,7 +11,7 @@ namespace DVLD
         private clsPeople _personInfo;
 
         public int PersonID => _ID;
-        public clsPeople PersonInfo => _personInfo;
+        public clsPeople SelectedPersonInfo => _personInfo;
 
         public USCPersonCard()
         {
@@ -44,7 +44,7 @@ namespace DVLD
             latxtDateOfBirth.Text = _personInfo.DateOfBirth.ToShortDateString();
             latxtAddress.Text = _personInfo.Address;
 
-            clsCountries countries = clsCountries.GetCountryName(_personInfo.NationalityCountryID);
+            clsCountries countries = clsCountries.Find(_personInfo.NationalityCountryID);
             latxtCountry.Text = (countries != null) ? countries.CountryName : "[???]";
 
             latxtPhone.Text = _personInfo.Phone;

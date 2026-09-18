@@ -62,7 +62,7 @@
             this.tabControl.Location = new System.Drawing.Point(12, 55);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(1186, 576);
+            this.tabControl.Size = new System.Drawing.Size(961, 576);
             this.tabControl.TabIndex = 1;
             // 
             // tabPage1
@@ -73,13 +73,14 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 25);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(1178, 547);
+            this.tabPage1.Size = new System.Drawing.Size(953, 547);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Personal Info";
             this.tabPage1.UseVisualStyleBackColor = true;
             // 
             // uscPersonCardWithFilter1
             // 
+            this.uscPersonCardWithFilter1.FilterEnabled = true;
             this.uscPersonCardWithFilter1.Location = new System.Drawing.Point(-8, 3);
             this.uscPersonCardWithFilter1.Name = "uscPersonCardWithFilter1";
             this.uscPersonCardWithFilter1.Size = new System.Drawing.Size(955, 456);
@@ -112,7 +113,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 25);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(943, 547);
+            this.tabPage2.Size = new System.Drawing.Size(953, 547);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "LoginInfo";
             this.tabPage2.UseVisualStyleBackColor = true;
@@ -259,6 +260,7 @@
             // 
             // uscPersonCardWithFitter1
             // 
+            this.uscPersonCardWithFitter1.FilterEnabled = true;
             this.uscPersonCardWithFitter1.Location = new System.Drawing.Point(-4, 0);
             this.uscPersonCardWithFitter1.Name = "uscPersonCardWithFitter1";
             this.uscPersonCardWithFitter1.Size = new System.Drawing.Size(946, 492);
@@ -306,6 +308,6 @@
         private System.Windows.Forms.Label txtUserID;
         public People.uscPersonCardWithFilter uscPersonCardWithFitter1;
         private System.Windows.Forms.ErrorProvider errorProvider;
-        private People.uscPersonCardWithFilter uscPersonCardWithFilter1;
+        public People.uscPersonCardWithFilter uscPersonCardWithFilter1;
     }
 }

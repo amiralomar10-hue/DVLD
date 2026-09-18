@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.uscPersonCard1 = new DVLD.USCPersonCard();
             this.laUserID = new System.Windows.Forms.Label();
             this.latxtUserID = new System.Windows.Forms.Label();
             this.laUserName = new System.Windows.Forms.Label();
@@ -36,15 +35,9 @@
             this.gbUserInfo = new System.Windows.Forms.GroupBox();
             this.latxtIsActive = new System.Windows.Forms.Label();
             this.laIsActive = new System.Windows.Forms.Label();
+            this.uscPersonCard1 = new DVLD.USCPersonCard();
             this.gbUserInfo.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // uscPersonCard1
-            // 
-            this.uscPersonCard1.Location = new System.Drawing.Point(3, 3);
-            this.uscPersonCard1.Name = "uscPersonCard1";
-            this.uscPersonCard1.Size = new System.Drawing.Size(943, 388);
-            this.uscPersonCard1.TabIndex = 0;
             // 
             // laUserID
             // 
@@ -117,6 +110,13 @@
             this.laIsActive.Size = new System.Drawing.Size(102, 25);
             this.laIsActive.TabIndex = 4;
             this.laIsActive.Text = "Is Active:";
+            // 
+            // uscPersonCard1
+            // 
+            this.uscPersonCard1.Location = new System.Drawing.Point(3, 3);
+            this.uscPersonCard1.Name = "uscPersonCard1";
+            this.uscPersonCard1.Size = new System.Drawing.Size(943, 375);
+            this.uscPersonCard1.TabIndex = 0;
             // 
             // uscUserInfo
             // 

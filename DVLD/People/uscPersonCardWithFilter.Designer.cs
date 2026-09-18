@@ -60,6 +60,7 @@ namespace DVLD.People
             this.txtFind.Name = "txtFind";
             this.txtFind.Size = new System.Drawing.Size(254, 30);
             this.txtFind.TabIndex = 5;
+            this.txtFind.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.txtFind_KeyPress);
             // 
             // bSearch
             // 
@@ -107,7 +108,7 @@ namespace DVLD.People
             // 
             // uscPersonCard1
             // 
-            this.uscPersonCard1.Location = new System.Drawing.Point(0, 118);
+            this.uscPersonCard1.Location = new System.Drawing.Point(0, 125);
             this.uscPersonCard1.Name = "uscPersonCard1";
             this.uscPersonCard1.Size = new System.Drawing.Size(946, 396);
             this.uscPersonCard1.TabIndex = 0;
@@ -129,9 +130,9 @@ namespace DVLD.People
         private System.Windows.Forms.Label laFind;
         private System.Windows.Forms.Button bSearch;
         private System.Windows.Forms.Button bAdd;
-        public USCPersonCard uscPersonCard1;
         public System.Windows.Forms.GroupBox gbFilter;
         public System.Windows.Forms.ComboBox comboxFind;
         public System.Windows.Forms.TextBox txtFind;
+        public USCPersonCard uscPersonCard1;
     }
 }

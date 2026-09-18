@@ -92,7 +92,7 @@
             this.gbDriverLicenseInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbDriverLicenseInfo.Location = new System.Drawing.Point(3, 0);
             this.gbDriverLicenseInfo.Name = "gbDriverLicenseInfo";
-            this.gbDriverLicenseInfo.Size = new System.Drawing.Size(923, 378);
+            this.gbDriverLicenseInfo.Size = new System.Drawing.Size(885, 356);
             this.gbDriverLicenseInfo.TabIndex = 0;
             this.gbDriverLicenseInfo.TabStop = false;
             this.gbDriverLicenseInfo.Text = "Driver License Info";
@@ -400,6 +400,7 @@
             this.Controls.Add(this.gbDriverLicenseInfo);
             this.Name = "clsLicenseCard";
             this.Size = new System.Drawing.Size(920, 374);
+            this.Load += new System.EventHandler(this.clsLicenseCard_Load);
             this.gbDriverLicenseInfo.ResumeLayout(false);
             this.gbDriverLicenseInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();

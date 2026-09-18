@@ -14,16 +14,60 @@ namespace DVLD.Licenses
 {
     public partial class clsLicenseCard : UserControl
     {
-        clsLicense _License = new clsLicense();
+        private clsLicense _License = new clsLicense();
+
+        private int _LicenseID;
+        public int LicenseID
+        {
+            get
+            {
+                return _LicenseID;
+            }
+            set
+            {
+                _LicenseID = value;
+            }
+        }
+
+        public clsLicense licenseSelected
+        {
+            get
+            {
+                return _License;
+            }
+        }
+
         public clsLicenseCard()
         {
             InitializeComponent();
         }
-        
+
+        public void ResetLicenseInfo()
+        {
+            _LicenseID = -1;
+            _License = null;
+            latxtLicenseID.Text = "[???]";
+            latxtName.Text = "[???]";
+            latxtNationalNo.Text = "[???]";
+            latxtNotes.Text = "[???]";
+            latxtGendor.Text = "[???]";
+            latxtClass.Text = "[???]";
+            latxtDetained.Text = "[???]";
+            latxtDate.Text = DateTime.Now.ToShortDateString();
+            latxtActive.Text = "[???]";
+            latxtDOB.Text = DateTime.Now.ToShortDateString();
+            latxtDriverID.Text = "[???]";
+            latxtEenDate.Text = DateTime.Now.ToShortDateString();
+        }
 
         public void FillAllTextBoxes(int ID)
         {
             _License = clsLicense.Find(ID);
+            if (_License == null)
+            {
+                return;
+            }
+         
             latxtClass.Text = _License.LicenseClassInfo.ClassName;
             latxtLicenseID.Text = _License.LicenseID.ToString();
             latxtName.Text = clsPeople.ShowDetailsPerson(clsDrivers.Find(_License.DriverID).PersonID).FullName;
@@ -40,16 +84,19 @@ namespace DVLD.Licenses
             }
 
             pictureBox1.ImageLocation = (String.IsNullOrEmpty(clsPeople.ShowDetailsPerson(clsDrivers.Find(_License.DriverID).PersonID).ImagePath)) ? null : clsPeople.ShowDetailsPerson(clsDrivers.Find(_License.DriverID).PersonID).ImagePath;
-              latxtDate.Text = _License.IssueDate.ToString();
-              latxtReason.Text = _License.IssueReasonText;
+            latxtDate.Text = _License.IssueDate.ToString();
+            latxtReason.Text = _License.IssueReasonText;
             latxtNotes.Text = _License.Notes;
             latxtActive.Text = (_License.IsActive) ? "Yes" : "No";
             latxtDriverID.Text = _License.DriverID.ToString();
             latxtDOB.Text = clsPeople.ShowDetailsPerson(clsDrivers.Find(_License.DriverID).PersonID).DateOfBirth.ToString();
-            latxtEenDate.Text =  _License.ExpirationDate.ToString();
+            latxtEenDate.Text = _License.ExpirationDate.ToString();
             latxtDetained.Text = (_License.IsDetained) ? "Yes" : "No";
         }
 
-       
+        private void clsLicenseCard_Load(object sender, EventArgs e)
+        {
+            ResetLicenseInfo();
+        }
     }
 }

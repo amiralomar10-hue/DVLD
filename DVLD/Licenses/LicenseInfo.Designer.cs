@@ -37,6 +37,7 @@
             // 
             // clsLicenseCard1
             // 
+            this.clsLicenseCard1.LicenseID = -1;
             this.clsLicenseCard1.Location = new System.Drawing.Point(12, 230);
             this.clsLicenseCard1.Name = "clsLicenseCard1";
             this.clsLicenseCard1.Size = new System.Drawing.Size(920, 374);
@@ -87,6 +88,7 @@
             this.Controls.Add(this.clsLicenseCard1);
             this.Name = "LicenseInfo";
             this.Text = "LicenseInfo";
+            this.Load += new System.EventHandler(this.LicenseInfo_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

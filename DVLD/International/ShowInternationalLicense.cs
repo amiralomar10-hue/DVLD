@@ -1,23 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace DVLD.International
 {
     public partial class ShowInternationalLicense : Form
     {
-        int _ID;
-        public ShowInternationalLicense(int iD)
+        private int _internationalLicenseID = -1;
+
+        public ShowInternationalLicense(int internationalLicenseID)
         {
             InitializeComponent();
-            _ID = iD;
-            uscInternationalLicenseInfocard1.FillAllTextBoxes(_ID);
+            _internationalLicenseID = internationalLicenseID;
+        }
+
+        private void ShowInternationalLicense_Load(object sender, EventArgs e)
+        {
+            uscInternationalLicenseInfocard1.FillAllTextBoxes(_internationalLicenseID);
         }
 
         private void bClose_Click(object sender, EventArgs e)

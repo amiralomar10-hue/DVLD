@@ -232,12 +232,6 @@
     <Compile Include="People\PeopleForm.Designer.cs">
       <DependentUpon>PeopleForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="People\Person.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="People\Person.Designer.cs">
-      <DependentUpon>Person.cs</DependentUpon>
-    </Compile>
     <Compile Include="People\uscPersonCardWithFilter.cs">
       <SubType>UserControl</SubType>
     </Compile>
@@ -383,9 +377,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="People\PeopleForm.resx">
       <DependentUpon>PeopleForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="People\Person.resx">
-      <DependentUpon>Person.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="People\PersonInfo.resx">
       <DependentUpon>PersonInfo.cs</DependentUpon>

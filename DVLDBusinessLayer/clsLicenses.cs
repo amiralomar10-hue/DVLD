@@ -14,6 +14,8 @@ namespace DVLDBusinessLayer
 
         public int LicenseID { get; set; }
         public int ApplicationID { get; set; }
+
+        public clsApplication ApplicationInfo;
         public int DriverID { get; set; }
         public int LicenseClassID { get; set; }
         public clsLicenseClass LicenseClassInfo { get; set; }
@@ -85,7 +87,7 @@ namespace DVLDBusinessLayer
             this.IsActive = IsActive;
             this.IssueReason = IssueReason;
             this.CreatedByUserID = CreatedByUserID;
-
+            this.ApplicationInfo = clsApplication.FindBaseApplication(ApplicationID);
             Mode = enMode.Update;
         }
 

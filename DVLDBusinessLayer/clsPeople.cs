@@ -35,8 +35,9 @@ namespace DVLDBusinessLayer
         public string Phone { get; set; }
         public string Email { get; set; }
         public int NationalityCountryID { get; set; }
+
         public string ImagePath { get; set; }
-        public clsCountries countries;
+        public clsCountries CountryInfo;
         public enModePerson Mode { get; set; }
 
         public clsPeople()
@@ -79,7 +80,7 @@ namespace DVLDBusinessLayer
             this.NationalityCountryID = nationalityCountryID;
             this.ImagePath = imagePath;
             this.Mode = mode;
-          countries = clsCountries.GetCountryName(NationalityCountryID);
+          CountryInfo = clsCountries.Find(NationalityCountryID);
         }
 
 
@@ -150,7 +151,15 @@ namespace DVLDBusinessLayer
             switch (Mode)
             {
                 case enModePerson.AddNewMode:
-                    return _AddNewPeople();
+                    if( _AddNewPeople())
+                    {
+                        this.Mode = enModePerson.UpdateMode;
+                        return true;
+                    }
+                    else
+                    {
+                        return false;
+                    }
 
                 case enModePerson.UpdateMode:
                     return _UpadtePeople();

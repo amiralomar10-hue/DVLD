@@ -1,117 +1,112 @@
-﻿using DVLD.Licenses;
+﻿using System;
+using System.Windows.Forms;
+using DVLD.Licenses;
 using DVLDBuisnessLayer;
 using DVLDBusinessLayer;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
+using Golbal;
 
 namespace DVLD.Detain_Release
 {
     public partial class DetainForm : Form
     {
-        int _SelectedLicenseID = 0;
-        clsLicense _OldLicense = null;
-       clsDetainedLicense _DetainLicense = null;
+        private int _selectedLicenseID = -1;
+        private clsLicense _oldLicense = null;
+        private clsDetainedLicense _detainLicense = null;
+
         public DetainForm()
         {
             InitializeComponent();
             ResetDefaultValues();
-            uscLicenseCardWithFilter1.DataBack += LicenseInfo_DataBack;
+
+            // الاشتراك بحدث اختيار الرخصة من الفلتر
+            uscLicenseCardWithFilter1.OnLicenseSelected += LicenseCardWithFilter_OnLicenseSelected;
         }
 
         private void ResetDefaultValues()
         {
-            latxtDetainDate.Text = DateTime.Now.ToString();
+            latxtDetainDate.Text = DateTime.Now.ToShortDateString();
+            if (GolbalUser.CurrentUser != null)
+                latxtUser.Text = GolbalUser.CurrentUser.UserName;
 
-            if (Golbal.GolbalUser.CurrentUser != null)
-                latxtUser.Text = Golbal.GolbalUser.CurrentUser.UserName;
-
+            bDetain.Enabled = false;
+            linkLabelInfo.Enabled = false;
+            linkLabelHistory.Enabled = false;
         }
 
-        private void LicenseInfo_DataBack(object sender, int licenseID)
+        private void LicenseCardWithFilter_OnLicenseSelected(int licenseID)
         {
-            _SelectedLicenseID = licenseID;
-            _OldLicense = clsLicense.Find(licenseID);
+            _selectedLicenseID = licenseID;
+            _oldLicense = clsLicense.Find(licenseID);
 
-            if (_OldLicense == null)
+            if (_oldLicense == null)
             {
                 MessageBox.Show("Selected license was not found!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 bDetain.Enabled = false;
                 linkLabelHistory.Enabled = false;
                 return;
             }
-            if (_OldLicense.IsActive == false)
+
+            if (!_oldLicense.IsActive)
             {
                 MessageBox.Show("This license is not Active!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 bDetain.Enabled = false;
+                return;
             }
 
-            linkLabelHistory.Enabled = true;
-
-            uscLicenseCardWithFilter1.clsLicenseCard1.FillAllTextBoxes(licenseID);
-
-            latxtLicenseID.Text = _SelectedLicenseID.ToString();
-
-            
-        }
-            private void linkLabelHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+            if (_oldLicense.IsDetained)
             {
-            clsPeople person = clsPeople.GetClsPeopleByNationalNO(uscLicenseCardWithFilter1.clsLicenseCard1.latxtNationalNo.Text);
-            if (person == null) return;
+                MessageBox.Show("This license is already Detained!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                bDetain.Enabled = false;
+                return;
+            }
 
-            LicensesForm frm = new LicensesForm(person.PersonID);
-            frm.ShowDialog();
-            }   
-
-        private void linkLabelInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-
-            LicenseInfo frm = new LicenseInfo(_SelectedLicenseID);
-            frm.ShowDialog();
-        }
-
-        private void bClose_Click(object sender, EventArgs e)
-        {
-            this.Close();
-        }
-
-        public clsDetainedLicense FillLicenseInfo()
-        {
-            clsDetainedLicense license = new clsDetainedLicense();
-
-            
-            license.FineFees = (String.IsNullOrEmpty(txtFineFees.Text)) ? 0 : Decimal.Parse(txtFineFees.Text);
-             license.CreatedByUserID = Golbal.GolbalUser.CurrentUser.UserID;
-            license.DetainDate = DateTime.Now;
-            license.LicenseID = _OldLicense.LicenseID;
-            license.IsReleased = false;
-            return license;
+            bDetain.Enabled = true;
+            linkLabelHistory.Enabled = true;
+            latxtLicenseID.Text = _selectedLicenseID.ToString();
         }
 
         private void bDetain_Click(object sender, EventArgs e)
         {
-            _DetainLicense = FillLicenseInfo();
+            if (_oldLicense == null || !_oldLicense.IsActive) return;
 
-            if (_DetainLicense.Save())
+            _detainLicense = new clsDetainedLicense
             {
-                MessageBox.Show($"Licensed Renewed Successfully with ID = {_DetainLicense.DetainID}", "Succeeded", MessageBoxButtons.OK, MessageBoxIcon.Information);
-              //  _OldLicense.
-              latxtDetainID.Text = _DetainLicense.DetainID.ToString();
+                LicenseID = _oldLicense.LicenseID,
+                DetainDate = DateTime.Now,
+                FineFees = decimal.TryParse(txtFineFees.Text, out decimal fees) ? fees : 0,
+                CreatedByUserID = GolbalUser.CurrentUser.UserID,
+                IsReleased = false
+            };
+
+            if (_detainLicense.Save())
+            {
+                MessageBox.Show($"License Detained Successfully with ID = {_detainLicense.DetainID}", "Succeeded", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                latxtDetainID.Text = _detainLicense.DetainID.ToString();
                 bDetain.Enabled = false;
-                uscLicenseCardWithFilter1.gbFilter.Enabled = false;
                 linkLabelInfo.Enabled = true;
             }
             else
             {
-                MessageBox.Show("Failed to save renewed license data!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to detain license data!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        
         }
+
+        private void linkLabelHistory_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            if (_oldLicense == null) return;
+            clsDrivers driver = clsDrivers.Find(_oldLicense.DriverID);
+            if (driver == null) return;
+
+            LicensesForm frm = new LicensesForm(driver.PersonID);
+            frm.ShowDialog();
+        }
+
+        private void linkLabelInfo_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            LicenseInfo frm = new LicenseInfo(_selectedLicenseID);
+            frm.ShowDialog();
+        }
+
+        private void bClose_Click(object sender, EventArgs e) => this.Close();
     }
 }

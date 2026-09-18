@@ -13,9 +13,35 @@ namespace DVLD.International
 {
     public partial class uscLicenseCardWithFilter : UserControl
     {
-        public delegate void EventSearsh(object sender , int ID);
+        public int LicenseID
+        {
+            get
+            {
+                return clsLicenseCard1.LicenseID;
+            }
+      
+        }
 
-        public event EventSearsh DataBack;
+        public clsLicense LicenseSelectedInfo
+        {
+            get
+            {
+                return clsLicenseCard1.licenseSelected;
+            }
+        }
+
+       
+
+
+        public event Action<int> OnLicenseSelected;
+        protected virtual void LicenseSelected(int LicenseID)
+        {
+            Action<int> handler = OnLicenseSelected;
+            if (handler != null)
+            {
+                handler(LicenseID);
+            }
+        }
 
         public uscLicenseCardWithFilter()
         {
@@ -28,16 +54,10 @@ namespace DVLD.International
             int ID = -1;
             if (int.TryParse(txtFind.Text.Trim(), out int code))
                 ID = code;
-            DataBack?.Invoke(this, ID);
-            if (clsLicense.IsExsit(ID))
-            {
-                 clsLicenseCard1.FillAllTextBoxes(ID);
-                gbFilter.Enabled = false;
-            }
-            else
-            {
-                MessageBox.Show("There is no License ", "Fail", MessageBoxButtons.OK, MessageBoxIcon.Stop);
-            }
+            clsLicenseCard1.FillAllTextBoxes(ID);
+            gbFilter.Enabled = false;
+            OnLicenseSelected(ID);
+
         }
     }
 }

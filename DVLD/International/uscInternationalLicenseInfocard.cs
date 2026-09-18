@@ -6,6 +6,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,13 +15,57 @@ namespace DVLD.International
 {
     public partial class uscInternationalLicenseInfocard : UserControl
     {
+        int _LicenseID = -1;
         clsInternationalLicenses _License = new clsInternationalLicenses();
+
+        public  int LicenseID
+        {
+            get
+            {
+                return _LicenseID;
+            }
+            set
+            {
+                _LicenseID = value;
+            }
+        }
+        
+
+        public  clsInternationalLicenses LicenseSelectedInfo
+        {
+            get 
+            {
+                return _License;
+            }
+
+        }
+
+
         public uscInternationalLicenseInfocard()
         {
             InitializeComponent();
+
         }
 
-       
+        public void ReseIntLicenseInfo()
+        {
+            _LicenseID = -1;
+            _License = null;
+            latxtIntID.Text = "[???]";
+            latxtLicenseID.Text = "[???]";
+            latxtName.Text = "[???]";
+            latxtNationalNo.Text = "[???]";
+            latxtNotes.Text = "[???]";
+           
+            latxtGendor.Text = "[???]";
+            latxtDate.Text = DateTime.Now.ToShortDateString();
+            latxtActive.Text = "[???]";
+            latxtAppID.Text = "[???]";
+            latxtDOB.Text = DateTime.Now.ToShortDateString();
+            latxtDriverID.Text = "[???]";
+            latxtEenDate.Text = DateTime.Now.ToShortDateString();
+        }
+
         public void FillAllTextBoxes(int ID)
         {
             _License = clsInternationalLicenses.Find(ID);
@@ -46,6 +91,11 @@ namespace DVLD.International
             latxtDriverID.Text = _License.DriverID.ToString();
             latxtDOB.Text = clsPeople.ShowDetailsPerson(clsDrivers.Find(_License.DriverID).PersonID).DateOfBirth.ToString();
             latxtEenDate.Text = _License.ExpirationDate.ToString();
+        }
+
+        private void uscInternationalLicenseInfocard_Load(object sender, EventArgs e)
+        {
+            ReseIntLicenseInfo();
         }
     }
 }

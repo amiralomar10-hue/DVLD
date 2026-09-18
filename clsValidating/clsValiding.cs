@@ -21,22 +21,15 @@ namespace MyValidationLibrary
             }
         }
 
-        public static bool ValidateEmail(TextBox txtEmail, ErrorProvider errorProvider)
+        public static bool ValidateEmail(string emailAddress)
         {
-           
-            string pattern = @"^[^@\s]+@[^@\s]+\.[^@\s]+$";
+            var pattern = @"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$";
 
-            if (!Regex.IsMatch(txtEmail.Text.Trim(), pattern))
-            {
-                errorProvider.SetError(txtEmail, "Invalid Email Format");
-                return false;
-            }
-            else
-            {
-                errorProvider.SetError(txtEmail, "");
-                return true;
-            }
+            var regex = new Regex(pattern);
+
+            return regex.IsMatch(emailAddress);
         }
+
 
 
         public static bool ValidatePhone(TextBox txtPhone, ErrorProvider errorProvider)

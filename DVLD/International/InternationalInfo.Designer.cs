@@ -341,7 +341,6 @@ namespace DVLD
             this.Controls.Add(this.uscLicenseCardWithFilter1);
             this.Name = "InternationalInfo";
             this.Text = "InternationalInfo";
-            this.Load += new System.EventHandler(this.InternationalInfo_Load);
             this.gbApplicationInfo.ResumeLayout(false);
             this.gbApplicationInfo.PerformLayout();
             this.ResumeLayout(false);

@@ -48,6 +48,7 @@
             // 
             // uscInternationalLicenseInfocard1
             // 
+            this.uscInternationalLicenseInfocard1.LicenseID = -1;
             this.uscInternationalLicenseInfocard1.Location = new System.Drawing.Point(-6, 289);
             this.uscInternationalLicenseInfocard1.Name = "uscInternationalLicenseInfocard1";
             this.uscInternationalLicenseInfocard1.Size = new System.Drawing.Size(929, 359);
@@ -87,6 +88,7 @@
             this.Controls.Add(this.pictureBox1);
             this.Name = "ShowInternationalLicense";
             this.Text = "ShowInternationalLicense";
+            this.Load += new System.EventHandler(this.ShowInternationalLicense_Load);
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

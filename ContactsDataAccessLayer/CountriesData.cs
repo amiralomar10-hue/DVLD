@@ -22,7 +22,7 @@ namespace DVLDDataAccessLayer
             DataTable dt = new DataTable();
 
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM Countries\r\n";
+            string query = "SELECT * FROM Countries";
             SqlCommand cmd = new SqlCommand(query, connection);
 
             try

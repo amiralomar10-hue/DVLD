@@ -30,6 +30,13 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(USCPersonCard));
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.laGendor = new System.Windows.Forms.Label();
+            this.LaNationalNO = new System.Windows.Forms.Label();
+            this.laName = new System.Windows.Forms.Label();
+            this.laPerson = new System.Windows.Forms.Label();
+            this.label12 = new System.Windows.Forms.Label();
+            this.laPhone = new System.Windows.Forms.Label();
+            this.label10 = new System.Windows.Forms.Label();
             this.latxtEmail = new System.Windows.Forms.Label();
             this.latxtAddress = new System.Windows.Forms.Label();
             this.latxtCountry = new System.Windows.Forms.Label();
@@ -39,17 +46,10 @@
             this.LatxtNationalNO = new System.Windows.Forms.Label();
             this.latxtDateOfBirth = new System.Windows.Forms.Label();
             this.latxtPersonID = new System.Windows.Forms.Label();
-            this.laPerson = new System.Windows.Forms.Label();
-            this.label12 = new System.Windows.Forms.Label();
-            this.laPhone = new System.Windows.Forms.Label();
-            this.label10 = new System.Windows.Forms.Label();
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.linkLaSet = new System.Windows.Forms.LinkLabel();
             this.laAdd = new System.Windows.Forms.Label();
             this.laEmail = new System.Windows.Forms.Label();
-            this.laGendor = new System.Windows.Forms.Label();
-            this.LaNationalNO = new System.Windows.Forms.Label();
-            this.laName = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();
             this.SuspendLayout();
@@ -79,10 +79,94 @@
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.groupBox1.Location = new System.Drawing.Point(3, 2);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(937, 480);
+            this.groupBox1.Size = new System.Drawing.Size(940, 369);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Person info";
+            // 
+            // laGendor
+            // 
+            this.laGendor.AutoSize = true;
+            this.laGendor.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
+            this.laGendor.Image = global::DVLD.Properties.Resources.Person_32;
+            this.laGendor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laGendor.Location = new System.Drawing.Point(10, 215);
+            this.laGendor.Name = "laGendor";
+            this.laGendor.Size = new System.Drawing.Size(108, 24);
+            this.laGendor.TabIndex = 88;
+            this.laGendor.Text = "      Gendor:";
+            // 
+            // LaNationalNO
+            // 
+            this.LaNationalNO.AutoSize = true;
+            this.LaNationalNO.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
+            this.LaNationalNO.Image = global::DVLD.Properties.Resources.Number_32;
+            this.LaNationalNO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.LaNationalNO.Location = new System.Drawing.Point(10, 162);
+            this.LaNationalNO.Name = "LaNationalNO";
+            this.LaNationalNO.Size = new System.Drawing.Size(151, 24);
+            this.LaNationalNO.TabIndex = 87;
+            this.LaNationalNO.Text = "      National NO:";
+            // 
+            // laName
+            // 
+            this.laName.AutoSize = true;
+            this.laName.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.laName.Image = global::DVLD.Properties.Resources.Person_32;
+            this.laName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laName.Location = new System.Drawing.Point(10, 103);
+            this.laName.Name = "laName";
+            this.laName.Size = new System.Drawing.Size(96, 24);
+            this.laName.TabIndex = 86;
+            this.laName.Text = "      Name:";
+            // 
+            // laPerson
+            // 
+            this.laPerson.AutoSize = true;
+            this.laPerson.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.laPerson.Image = global::DVLD.Properties.Resources.Number_32;
+            this.laPerson.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laPerson.Location = new System.Drawing.Point(10, 47);
+            this.laPerson.Name = "laPerson";
+            this.laPerson.Size = new System.Drawing.Size(142, 24);
+            this.laPerson.TabIndex = 85;
+            this.laPerson.Text = "        PeersonID:";
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label12.Image = global::DVLD.Properties.Resources.Country_32;
+            this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label12.Location = new System.Drawing.Point(344, 275);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(116, 20);
+            this.label12.TabIndex = 84;
+            this.label12.Text = "      Country:";
+            // 
+            // laPhone
+            // 
+            this.laPhone.AutoSize = true;
+            this.laPhone.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
+            this.laPhone.Image = global::DVLD.Properties.Resources.Phone_32;
+            this.laPhone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.laPhone.Location = new System.Drawing.Point(344, 215);
+            this.laPhone.Name = "laPhone";
+            this.laPhone.Size = new System.Drawing.Size(104, 24);
+            this.laPhone.TabIndex = 83;
+            this.laPhone.Text = "       Phone:";
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
+            this.label10.Image = global::DVLD.Properties.Resources.Calendar_32;
+            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.label10.Location = new System.Drawing.Point(344, 162);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(158, 24);
+            this.label10.TabIndex = 82;
+            this.label10.Text = "      Date Of Birth:";
             // 
             // latxtEmail
             // 
@@ -174,54 +258,6 @@
             this.latxtPersonID.TabIndex = 73;
             this.latxtPersonID.Text = "N/A";
             // 
-            // laPerson
-            // 
-            this.laPerson.AutoSize = true;
-            this.laPerson.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.laPerson.Image = global::DVLD.Properties.Resources.Number_32;
-            this.laPerson.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.laPerson.Location = new System.Drawing.Point(10, 47);
-            this.laPerson.Name = "laPerson";
-            this.laPerson.Size = new System.Drawing.Size(142, 24);
-            this.laPerson.TabIndex = 85;
-            this.laPerson.Text = "        PeersonID:";
-            // 
-            // label12
-            // 
-            this.label12.AutoSize = true;
-            this.label12.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label12.Image = global::DVLD.Properties.Resources.Country_32;
-            this.label12.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label12.Location = new System.Drawing.Point(344, 275);
-            this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(116, 20);
-            this.label12.TabIndex = 84;
-            this.label12.Text = "      Country:";
-            // 
-            // laPhone
-            // 
-            this.laPhone.AutoSize = true;
-            this.laPhone.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
-            this.laPhone.Image = global::DVLD.Properties.Resources.Phone_32;
-            this.laPhone.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.laPhone.Location = new System.Drawing.Point(344, 215);
-            this.laPhone.Name = "laPhone";
-            this.laPhone.Size = new System.Drawing.Size(104, 24);
-            this.laPhone.TabIndex = 83;
-            this.laPhone.Text = "       Phone:";
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
-            this.label10.Image = global::DVLD.Properties.Resources.Calendar_32;
-            this.label10.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.label10.Location = new System.Drawing.Point(344, 162);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(158, 24);
-            this.label10.TabIndex = 82;
-            this.label10.Text = "      Date Of Birth:";
-            // 
             // pictureBox
             // 
             this.pictureBox.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
@@ -271,49 +307,13 @@
             this.laEmail.TabIndex = 65;
             this.laEmail.Text = "       Email:";
             // 
-            // laGendor
-            // 
-            this.laGendor.AutoSize = true;
-            this.laGendor.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
-            this.laGendor.Image = global::DVLD.Properties.Resources.Person_32;
-            this.laGendor.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.laGendor.Location = new System.Drawing.Point(10, 215);
-            this.laGendor.Name = "laGendor";
-            this.laGendor.Size = new System.Drawing.Size(108, 24);
-            this.laGendor.TabIndex = 88;
-            this.laGendor.Text = "      Gendor:";
-            // 
-            // LaNationalNO
-            // 
-            this.LaNationalNO.AutoSize = true;
-            this.LaNationalNO.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold);
-            this.LaNationalNO.Image = global::DVLD.Properties.Resources.Number_32;
-            this.LaNationalNO.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.LaNationalNO.Location = new System.Drawing.Point(10, 162);
-            this.LaNationalNO.Name = "LaNationalNO";
-            this.LaNationalNO.Size = new System.Drawing.Size(151, 24);
-            this.LaNationalNO.TabIndex = 87;
-            this.LaNationalNO.Text = "      National NO:";
-            // 
-            // laName
-            // 
-            this.laName.AutoSize = true;
-            this.laName.Font = new System.Drawing.Font("Microsoft YaHei", 10.2F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.laName.Image = global::DVLD.Properties.Resources.Person_32;
-            this.laName.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.laName.Location = new System.Drawing.Point(10, 103);
-            this.laName.Name = "laName";
-            this.laName.Size = new System.Drawing.Size(96, 24);
-            this.laName.TabIndex = 86;
-            this.laName.Text = "      Name:";
-            // 
             // USCPersonCard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.groupBox1);
             this.Name = "USCPersonCard";
-            this.Size = new System.Drawing.Size(943, 492);
+            this.Size = new System.Drawing.Size(924, 366);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).EndInit();
@@ -330,18 +330,18 @@
         private System.Windows.Forms.Label latxtName;
         private System.Windows.Forms.Label LatxtNationalNO;
         private System.Windows.Forms.Label latxtDateOfBirth;
-        public System.Windows.Forms.PictureBox pictureBox;
-        public System.Windows.Forms.LinkLabel linkLaSet;
-        public System.Windows.Forms.Label laAdd;
-        public System.Windows.Forms.Label laEmail;
-        public System.Windows.Forms.GroupBox groupBox1;
-        public System.Windows.Forms.Label latxtPersonID;
-        public System.Windows.Forms.Label label12;
-        public System.Windows.Forms.Label laPhone;
-        public System.Windows.Forms.Label label10;
         private System.Windows.Forms.Label laPerson;
-        public System.Windows.Forms.Label laGendor;
-        public System.Windows.Forms.Label LaNationalNO;
-        public System.Windows.Forms.Label laName;
+        private System.Windows.Forms.PictureBox pictureBox;
+        private System.Windows.Forms.LinkLabel linkLaSet;
+        private System.Windows.Forms.Label laAdd;
+        private System.Windows.Forms.Label laEmail;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.Label latxtPersonID;
+        private System.Windows.Forms.Label label12;
+        private System.Windows.Forms.Label laPhone;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.Label laGendor;
+        private System.Windows.Forms.Label LaNationalNO;
+        private System.Windows.Forms.Label laName;
     }
 }

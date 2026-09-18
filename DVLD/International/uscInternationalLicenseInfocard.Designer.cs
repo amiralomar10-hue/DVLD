@@ -29,18 +29,21 @@
         private void InitializeComponent()
         {
             this.gbInternationalLicenseInfo = new System.Windows.Forms.GroupBox();
+            this.latxtAppID = new System.Windows.Forms.Label();
+            this.laApplicationID = new System.Windows.Forms.Label();
+            this.latxtIntID = new System.Windows.Forms.Label();
+            this.latxtIntLicenseID = new System.Windows.Forms.Label();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.latxtActive = new System.Windows.Forms.Label();
             this.latxtDOB = new System.Windows.Forms.Label();
             this.latxtDriverID = new System.Windows.Forms.Label();
+            this.laEndDate = new System.Windows.Forms.Label();
             this.latxtName = new System.Windows.Forms.Label();
             this.latxtLicenseID = new System.Windows.Forms.Label();
             this.latxtNationalNo = new System.Windows.Forms.Label();
             this.latxtDate = new System.Windows.Forms.Label();
             this.latxtNotes = new System.Windows.Forms.Label();
             this.latxtGendor = new System.Windows.Forms.Label();
-            this.latxtEenDate = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.laEndDate = new System.Windows.Forms.Label();
             this.laName = new System.Windows.Forms.Label();
             this.laLicenseID = new System.Windows.Forms.Label();
             this.laNationalNo = new System.Windows.Forms.Label();
@@ -49,11 +52,8 @@
             this.laGendor = new System.Windows.Forms.Label();
             this.laActive = new System.Windows.Forms.Label();
             this.laDOB = new System.Windows.Forms.Label();
+            this.latxtEenDate = new System.Windows.Forms.Label();
             this.laDiverID = new System.Windows.Forms.Label();
-            this.latxtIntLicenseID = new System.Windows.Forms.Label();
-            this.latxtIntID = new System.Windows.Forms.Label();
-            this.laApplicationID = new System.Windows.Forms.Label();
-            this.latxtAppID = new System.Windows.Forms.Label();
             this.gbInternationalLicenseInfo.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -88,10 +88,61 @@
             this.gbInternationalLicenseInfo.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gbInternationalLicenseInfo.Location = new System.Drawing.Point(3, 3);
             this.gbInternationalLicenseInfo.Name = "gbInternationalLicenseInfo";
-            this.gbInternationalLicenseInfo.Size = new System.Drawing.Size(923, 354);
+            this.gbInternationalLicenseInfo.Size = new System.Drawing.Size(948, 405);
             this.gbInternationalLicenseInfo.TabIndex = 1;
             this.gbInternationalLicenseInfo.TabStop = false;
             this.gbInternationalLicenseInfo.Text = "Driver International License Info";
+            // 
+            // latxtAppID
+            // 
+            this.latxtAppID.AutoSize = true;
+            this.latxtAppID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.latxtAppID.Location = new System.Drawing.Point(576, 115);
+            this.latxtAppID.Name = "latxtAppID";
+            this.latxtAppID.Size = new System.Drawing.Size(36, 20);
+            this.latxtAppID.TabIndex = 30;
+            this.latxtAppID.Text = "???";
+            // 
+            // laApplicationID
+            // 
+            this.laApplicationID.AutoSize = true;
+            this.laApplicationID.Image = global::DVLD.Properties.Resources.Number_32;
+            this.laApplicationID.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.laApplicationID.Location = new System.Drawing.Point(362, 115);
+            this.laApplicationID.Name = "laApplicationID";
+            this.laApplicationID.Size = new System.Drawing.Size(188, 22);
+            this.laApplicationID.TabIndex = 29;
+            this.laApplicationID.Text = "Application ID:        ";
+            // 
+            // latxtIntID
+            // 
+            this.latxtIntID.AutoSize = true;
+            this.latxtIntID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.latxtIntID.Location = new System.Drawing.Point(221, 115);
+            this.latxtIntID.Name = "latxtIntID";
+            this.latxtIntID.Size = new System.Drawing.Size(36, 20);
+            this.latxtIntID.TabIndex = 28;
+            this.latxtIntID.Text = "???";
+            // 
+            // latxtIntLicenseID
+            // 
+            this.latxtIntLicenseID.AutoSize = true;
+            this.latxtIntLicenseID.Image = global::DVLD.Properties.Resources.Number_32;
+            this.latxtIntLicenseID.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.latxtIntLicenseID.Location = new System.Drawing.Point(10, 113);
+            this.latxtIntLicenseID.Name = "latxtIntLicenseID";
+            this.latxtIntLicenseID.Size = new System.Drawing.Size(191, 22);
+            this.latxtIntLicenseID.TabIndex = 27;
+            this.latxtIntLicenseID.Text = "Int.L.LIcense ID:      ";
+            // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(695, 53);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(176, 183);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.TabIndex = 26;
+            this.pictureBox1.TabStop = false;
             // 
             // latxtActive
             // 
@@ -125,6 +176,17 @@
             this.latxtDriverID.Size = new System.Drawing.Size(36, 20);
             this.latxtDriverID.TabIndex = 22;
             this.latxtDriverID.Text = "???";
+            // 
+            // laEndDate
+            // 
+            this.laEndDate.AutoSize = true;
+            this.laEndDate.Image = global::DVLD.Properties.Resources.Calendar_32;
+            this.laEndDate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.laEndDate.Location = new System.Drawing.Point(366, 296);
+            this.laEndDate.Name = "laEndDate";
+            this.laEndDate.Size = new System.Drawing.Size(184, 22);
+            this.laEndDate.TabIndex = 21;
+            this.laEndDate.Text = "Expriation Date:     ";
             // 
             // latxtName
             // 
@@ -192,37 +254,6 @@
             this.latxtGendor.Size = new System.Drawing.Size(36, 20);
             this.latxtGendor.TabIndex = 14;
             this.latxtGendor.Text = "???";
-            // 
-            // latxtEenDate
-            // 
-            this.latxtEenDate.AutoSize = true;
-            this.latxtEenDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
-            this.latxtEenDate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.latxtEenDate.Location = new System.Drawing.Point(576, 292);
-            this.latxtEenDate.Name = "latxtEenDate";
-            this.latxtEenDate.Size = new System.Drawing.Size(36, 20);
-            this.latxtEenDate.TabIndex = 2;
-            this.latxtEenDate.Text = "???";
-            // 
-            // pictureBox1
-            // 
-            this.pictureBox1.Location = new System.Drawing.Point(695, 53);
-            this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(197, 204);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pictureBox1.TabIndex = 26;
-            this.pictureBox1.TabStop = false;
-            // 
-            // laEndDate
-            // 
-            this.laEndDate.AutoSize = true;
-            this.laEndDate.Image = global::DVLD.Properties.Resources.Calendar_32;
-            this.laEndDate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.laEndDate.Location = new System.Drawing.Point(366, 296);
-            this.laEndDate.Name = "laEndDate";
-            this.laEndDate.Size = new System.Drawing.Size(184, 22);
-            this.laEndDate.TabIndex = 21;
-            this.laEndDate.Text = "Expriation Date:     ";
             // 
             // laName
             // 
@@ -312,6 +343,17 @@
             this.laDOB.TabIndex = 4;
             this.laDOB.Text = "Date Of Birth:         ";
             // 
+            // latxtEenDate
+            // 
+            this.latxtEenDate.AutoSize = true;
+            this.latxtEenDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F);
+            this.latxtEenDate.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.latxtEenDate.Location = new System.Drawing.Point(576, 292);
+            this.latxtEenDate.Name = "latxtEenDate";
+            this.latxtEenDate.Size = new System.Drawing.Size(36, 20);
+            this.latxtEenDate.TabIndex = 2;
+            this.latxtEenDate.Text = "???";
+            // 
             // laDiverID
             // 
             this.laDiverID.AutoSize = true;
@@ -323,55 +365,14 @@
             this.laDiverID.TabIndex = 1;
             this.laDiverID.Text = "Driver ID:               ";
             // 
-            // latxtIntLicenseID
-            // 
-            this.latxtIntLicenseID.AutoSize = true;
-            this.latxtIntLicenseID.Image = global::DVLD.Properties.Resources.Number_32;
-            this.latxtIntLicenseID.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.latxtIntLicenseID.Location = new System.Drawing.Point(10, 113);
-            this.latxtIntLicenseID.Name = "latxtIntLicenseID";
-            this.latxtIntLicenseID.Size = new System.Drawing.Size(191, 22);
-            this.latxtIntLicenseID.TabIndex = 27;
-            this.latxtIntLicenseID.Text = "Int.L.LIcense ID:      ";
-            // 
-            // latxtIntID
-            // 
-            this.latxtIntID.AutoSize = true;
-            this.latxtIntID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latxtIntID.Location = new System.Drawing.Point(221, 115);
-            this.latxtIntID.Name = "latxtIntID";
-            this.latxtIntID.Size = new System.Drawing.Size(36, 20);
-            this.latxtIntID.TabIndex = 28;
-            this.latxtIntID.Text = "???";
-            // 
-            // laApplicationID
-            // 
-            this.laApplicationID.AutoSize = true;
-            this.laApplicationID.Image = global::DVLD.Properties.Resources.Number_32;
-            this.laApplicationID.ImageAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.laApplicationID.Location = new System.Drawing.Point(362, 115);
-            this.laApplicationID.Name = "laApplicationID";
-            this.laApplicationID.Size = new System.Drawing.Size(188, 22);
-            this.laApplicationID.TabIndex = 29;
-            this.laApplicationID.Text = "Application ID:        ";
-            // 
-            // latxtAppID
-            // 
-            this.latxtAppID.AutoSize = true;
-            this.latxtAppID.Font = new System.Drawing.Font("Microsoft Sans Serif", 10.2F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.latxtAppID.Location = new System.Drawing.Point(576, 115);
-            this.latxtAppID.Name = "latxtAppID";
-            this.latxtAppID.Size = new System.Drawing.Size(36, 20);
-            this.latxtAppID.TabIndex = 30;
-            this.latxtAppID.Text = "???";
-            // 
             // uscInternationalLicenseInfocard
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.gbInternationalLicenseInfo);
             this.Name = "uscInternationalLicenseInfocard";
-            this.Size = new System.Drawing.Size(927, 357);
+            this.Size = new System.Drawing.Size(951, 411);
+            this.Load += new System.EventHandler(this.uscInternationalLicenseInfocard_Load);
             this.gbInternationalLicenseInfo.ResumeLayout(false);
             this.gbInternationalLicenseInfo.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
@@ -388,9 +389,6 @@
         private System.Windows.Forms.Label latxtDriverID;
         private System.Windows.Forms.Label laEndDate;
         private System.Windows.Forms.Label latxtName;
-        public System.Windows.Forms.Label latxtLicenseID;
-        public System.Windows.Forms.Label latxtNationalNo;
-        public System.Windows.Forms.Label latxtDate;
         private System.Windows.Forms.Label latxtNotes;
         private System.Windows.Forms.Label latxtGendor;
         private System.Windows.Forms.Label laName;
@@ -407,5 +405,8 @@
         private System.Windows.Forms.Label laApplicationID;
         private System.Windows.Forms.Label latxtIntID;
         private System.Windows.Forms.Label latxtIntLicenseID;
+        private System.Windows.Forms.Label latxtLicenseID;
+        private System.Windows.Forms.Label latxtNationalNo;
+        private System.Windows.Forms.Label latxtDate;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using DVLDBusinessLayer;
-using MyValidationLibrary;
 using System;
 using System.ComponentModel;
 using System.Windows.Forms;
@@ -16,7 +15,6 @@ namespace DVLD.Users
             InitializeComponent();
             _User = new clsUser();
             _User.Mode = clsUser.enMode.AddNew;
-            uscPersonCardWithFilter1.IsFilter = true;
         }
 
         public UserInfo(int UserID)
@@ -30,6 +28,31 @@ namespace DVLD.Users
         private void UserInfo_Load(object sender, EventArgs e)
         {
             RefreshMode();
+
+            uscPersonCardWithFilter1.OnPersonSelected += uscPersonCardWithFilter1_OnPersonSelected;
+
+            if (_User.Mode == clsUser.enMode.AddNew)
+                bNext.Enabled = false;
+        }
+
+        private void uscPersonCardWithFilter1_OnPersonSelected(int PersonID)
+        {
+          
+            if (PersonID == -1)
+            {
+                bNext.Enabled = false;
+                return;
+            }
+
+            if (_User.Mode == clsUser.enMode.AddNew && clsUser.IsUserExistForPersonID(PersonID))
+            {
+                MessageBox.Show("Selected Person already has a user, choose another one.", "Select another Person", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                bNext.Enabled = false; 
+            }
+            else
+            {
+                bNext.Enabled = true; 
+            }
         }
 
         private void RefreshMode()
@@ -83,7 +106,6 @@ namespace DVLD.Users
         {
             this.Close();
         }
-
         private bool FillUserInfo()
         {
             if (uscPersonCardWithFilter1.PersonID == -1)
@@ -123,6 +145,7 @@ namespace DVLD.Users
                 MessageBox.Show("Data Save Failed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
         private void txtUserName_Validating(object sender, CancelEventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtUserName.Text))

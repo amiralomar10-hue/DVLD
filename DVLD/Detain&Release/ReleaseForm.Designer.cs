@@ -122,7 +122,7 @@
             this.linkLabelHistory.TabIndex = 47;
             this.linkLabelHistory.TabStop = true;
             this.linkLabelHistory.Text = "Show Licenses History";
-            this.linkLabelHistory.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelHistory_LinkClicked_1);
+            this.linkLabelHistory.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelHistory_LinkClicked);
             // 
             // bRelase
             // 
@@ -135,7 +135,7 @@
             this.bRelase.TabIndex = 50;
             this.bRelase.Text = "Release";
             this.bRelase.UseVisualStyleBackColor = true;
-            this.bRelase.Click += new System.EventHandler(this.bRelase_Click);
+            this.bRelase.Click += new System.EventHandler(this.bRelease_Click);
             // 
             // laTitle
             // 
@@ -225,7 +225,6 @@
             this.latxtApp.Size = new System.Drawing.Size(36, 20);
             this.latxtApp.TabIndex = 32;
             this.latxtApp.Text = "???";
-            this.latxtApp.Click += new System.EventHandler(this.latxtApp_Click);
             // 
             // label5
             // 
@@ -325,7 +324,7 @@
             this.linkLabelInfo.TabIndex = 48;
             this.linkLabelInfo.TabStop = true;
             this.linkLabelInfo.Text = "Show License Info";
-            this.linkLabelInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelInfo_LinkClicked_1);
+            this.linkLabelInfo.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabelInfo_LinkClicked);
             // 
             // ReleaseForm
             // 
