@@ -86,6 +86,7 @@ namespace DVLD.Detain_Release
             int ID = Convert.ToInt32(dataGridView.CurrentRow.Cells[1].Value);
             ReleaseForm frm = new ReleaseForm(ID);
             frm.ShowDialog();
+            RefreshListDetainLicenses();
         }
 
         private void cbFind_SelectedIndexChanged(object sender, EventArgs e)

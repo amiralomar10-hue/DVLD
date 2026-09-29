@@ -134,6 +134,7 @@ namespace DVLDBusinessLayer
         private void ReleaseDetainedtoolStripMenuItem_Click(object sender, EventArgs e)
         {
             ReleaseForm frm = new ReleaseForm();
+            frm.ShowDialog();
         }
 
        

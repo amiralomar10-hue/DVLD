@@ -1,16 +1,19 @@
 ﻿using System;
-using System.Drawing;
 using System.Windows.Forms;
-using System.IO;
 using DVLDBusinessLayer;
-using DVLDBusinessLayer;
-using Golbal;
+using Microsoft.Win32;
+
+
 namespace DVLD_Interface
 {
     public partial class frmLogin : Form
     {
         clsUser User;
-        FileInfo logFile = new FileInfo("Login_File.txt");
+
+        string keyPath =  @"HKEY_CURRENT_USER\Software\DVLD";
+
+        string valueName = "Loggin Info";
+        string valueData = "";
 
         public frmLogin()
         {
@@ -49,32 +52,30 @@ namespace DVLD_Interface
             }
         }
 
+
         private void FillTextBoxes()
         {
             try
             {
-                if (logFile.Exists)
+                // Read the value from the Registry
+                string value = Registry.GetValue(keyPath, valueName, null) as string;
+
+
+                if (value != null)
                 {
-                    using (StreamReader sr = logFile.OpenText())
-                    {
-                        string line = sr.ReadLine();
-                        if (!string.IsNullOrEmpty(line))
-                        {
-                            User = clsUser._ConvertLinetoUserObject(line);
-                            if (User != null)
-                            {
-                                txtUsername.Text = User.UserName;
-                                txtPassword.Text = User.Password;
-                                chkRememberMe.Checked = true;
-                            }
-                        }
-                    }
+
+                    User = clsUser._ConvertLinetoUserObject(value);
+                    txtUsername.Text = User.UserName;
+                    txtPassword.Text = User.Password;
                 }
+                else
+                {
+                }
+               
             }
             catch (Exception ex)
             {
 
-                
             }
         }
 
@@ -82,34 +83,51 @@ namespace DVLD_Interface
         {
             try
             {
-                if (logFile.Exists)
+                string subKeyPath = @"Software\DVLD";
+
+                using (RegistryKey baseKey = RegistryKey.OpenBaseKey(RegistryHive.CurrentUser, RegistryView.Registry64))
                 {
-                    logFile.Delete();
+                    using (RegistryKey key = baseKey.OpenSubKey(subKeyPath, true))
+                    {
+                        if (key != null)
+                        {
+                            if (key.GetValue(valueName) != null)
+                            {
+                                key.DeleteValue(valueName);
+                            }
+                        }
+                    }
                 }
+
+                txtUsername.Clear();
+                txtPassword.Clear();
+            }
+            catch (UnauthorizedAccessException)
+            {
+                MessageBox.Show("UnauthorizedAccessException: Run the program with administrative privileges.");
             }
             catch (Exception ex)
             {
-                
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private bool SaveLogin()
         {
+
+            valueData = clsUser._ConverUserObjectToLine(User);
+
             try
             {
-                using (StreamWriter writer = logFile.CreateText())
-                {
-                    if (User != null)
-                    {
-                        writer.WriteLine(clsUser._ConverUserObjectToLine(User));
-                    }
-                }
+                Registry.SetValue(keyPath, valueName, valueData, RegistryValueKind.String);
+
+
             }
             catch (Exception ex)
             {
-                MessageBox.Show("An error occurred while saving login data: " + ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
+                MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+
             return true;
         }
 
