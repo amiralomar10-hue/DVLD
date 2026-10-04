@@ -45,5 +45,15 @@
     <Compile Include="clsValiding.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{86efd34f-c59a-4ec5-9a31-3872c5386c06}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValidationAttributes.cs\ValidationAttributes.cs.csproj">
+      <Project>{f810f5ff-d509-4883-bbc0-ed40445538a1}</Project>
+      <Name>ValidationAttributes.cs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

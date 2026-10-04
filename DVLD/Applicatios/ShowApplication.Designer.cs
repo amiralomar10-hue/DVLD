@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applicatios
+﻿namespace ValidationAttributes.Applicatios
 {
     partial class ShowApplication
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ldlAppilcationCard1 = new DVLD.Tests.LDLAppilcationCard();
+            this.ldlAppilcationCard1 = new ValidationAttributes.Tests.LDLAppilcationCard();
             this.SuspendLayout();
             // 
             // ldlAppilcationCard1

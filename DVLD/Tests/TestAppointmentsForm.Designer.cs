@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class TestAppointmentsForm
     {
@@ -40,7 +40,7 @@
             this.laRecords = new System.Windows.Forms.Label();
             this.bClose = new System.Windows.Forms.Button();
             this.pictureBox = new System.Windows.Forms.PictureBox();
-            this.ldlAppilcationCard1 = new DVLD.Tests.LDLAppilcationCard();
+            this.ldlAppilcationCard1 = new ValidationAttributes.Tests.LDLAppilcationCard();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.contextMenuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox)).BeginInit();

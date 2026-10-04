@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DVLD.Users
+namespace ValidationAttributes.Users
 {
     public partial class ShowDetailsUserForm : Form
     {

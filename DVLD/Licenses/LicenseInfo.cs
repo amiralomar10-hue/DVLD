@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DVLD.Licenses
+namespace ValidationAttributes.Licenses
 {
     public partial class LicenseInfo : Form
     {

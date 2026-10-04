@@ -1,4 +1,4 @@
-﻿namespace DVLD
+﻿namespace ValidationAttributes
 {
     partial class ShowDetailsPersonForm
     {
@@ -30,7 +30,7 @@
         {
             this.label1 = new System.Windows.Forms.Label();
             this.bClose = new System.Windows.Forms.Button();
-            this.uscPersonCard1 = new DVLD.USCPersonCard();
+            this.uscPersonCard1 = new ValidationAttributes.USCPersonCard();
             this.SuspendLayout();
             // 
             // label1

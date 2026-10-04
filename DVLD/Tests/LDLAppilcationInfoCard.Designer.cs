@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class LDLAppilcationCard
     {

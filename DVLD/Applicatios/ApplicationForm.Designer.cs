@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applicatios
+﻿namespace ValidationAttributes.Applicatios
 {
     partial class ApplicationForm
     {
@@ -119,7 +119,7 @@
             this.showApplicationDelailsToolStripMenuItem.Text = "Show Application Details";
             this.showApplicationDelailsToolStripMenuItem.Click += new System.EventHandler(this.showApplicationDelailsToolStripMenuItem_Click);
             // 
-            // editApplicationToolStripMenuItem
+            // editApplicationToolStripMenuItemس
             // 
             this.editApplicationToolStripMenuItem.Image = global::DVLD.Properties.Resources.edit_322;
             this.editApplicationToolStripMenuItem.Name = "editApplicationToolStripMenuItem";

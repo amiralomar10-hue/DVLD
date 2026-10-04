@@ -9,8 +9,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLDBusinessLayer;
-using DVLD.Users;
-namespace DVLD
+using ValidationAttributes.Users;
+namespace ValidationAttributes
 {
     public partial class UserForm : Form
     {

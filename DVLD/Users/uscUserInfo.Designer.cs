@@ -1,4 +1,4 @@
-﻿namespace DVLD.Users
+﻿namespace ValidationAttributes.Users
 {
     partial class uscUserInfo
     {
@@ -35,7 +35,7 @@
             this.gbUserInfo = new System.Windows.Forms.GroupBox();
             this.latxtIsActive = new System.Windows.Forms.Label();
             this.laIsActive = new System.Windows.Forms.Label();
-            this.uscPersonCard1 = new DVLD.USCPersonCard();
+            this.uscPersonCard1 = new ValidationAttributes.USCPersonCard();
             this.gbUserInfo.SuspendLayout();
             this.SuspendLayout();
             // 

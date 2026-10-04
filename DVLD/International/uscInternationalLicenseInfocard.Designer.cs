@@ -1,4 +1,4 @@
-﻿namespace DVLD.International
+﻿namespace ValidationAttributes.International
 {
     partial class uscInternationalLicenseInfocard
     {

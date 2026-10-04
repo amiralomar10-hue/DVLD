@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using DVLD;
+using ValidationAttributes;
 using DVLDBusinessLayer;
 
 namespace DVLDBusinessLayer

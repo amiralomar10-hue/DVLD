@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Forms;
 
-namespace DVLD.International
+namespace ValidationAttributes.International
 {
     public partial class ShowInternationalLicense : Form
     {

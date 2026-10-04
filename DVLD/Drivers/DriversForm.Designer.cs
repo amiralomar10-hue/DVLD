@@ -1,4 +1,4 @@
-﻿namespace DVLD.Drivers
+﻿namespace ValidationAttributes.Drivers
 {
     partial class DriversForm
     {

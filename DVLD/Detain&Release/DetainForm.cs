@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using DVLD.Licenses;
+using ValidationAttributes.Licenses;
 using DVLDBuisnessLayer;
 using DVLDBusinessLayer;
 using Golbal;
 
-namespace DVLD.Detain_Release
+namespace ValidationAttributes.Detain_Release
 {
     public partial class DetainForm : Form
     {

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Data;
 using System.Windows.Forms;
-using DVLD.Licenses;
-using DVLD.Tests;
+using ValidationAttributes.Licenses;
+using ValidationAttributes.Tests;
 using DVLDBusinessLayer;
 
-namespace DVLD.Applicatios
+namespace ValidationAttributes.Applicatios
 {
     public partial class ApplicationForm : Form
     {

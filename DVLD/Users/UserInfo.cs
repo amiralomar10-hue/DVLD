@@ -1,9 +1,10 @@
-﻿using DVLDBusinessLayer;
-using System;
+﻿using System;
 using System.ComponentModel;
 using System.Windows.Forms;
+using DVLDBusinessLayer;
+using MyValidationLibrary;
 
-namespace DVLD.Users
+namespace ValidationAttributes.Users
 {
     public partial class UserInfo : Form
     {
@@ -37,7 +38,6 @@ namespace DVLD.Users
 
         private void uscPersonCardWithFilter1_OnPersonSelected(int PersonID)
         {
-          
             if (PersonID == -1)
             {
                 bNext.Enabled = false;
@@ -47,11 +47,11 @@ namespace DVLD.Users
             if (_User.Mode == clsUser.enMode.AddNew && clsUser.IsUserExistForPersonID(PersonID))
             {
                 MessageBox.Show("Selected Person already has a user, choose another one.", "Select another Person", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                bNext.Enabled = false; 
+                bNext.Enabled = false;
             }
             else
             {
-                bNext.Enabled = true; 
+                bNext.Enabled = true;
             }
         }
 
@@ -67,7 +67,7 @@ namespace DVLD.Users
             {
                 laMode.Text = "Update User";
                 txtUserID.Text = _User.UserID.ToString();
-                uscPersonCardWithFilter1.FilterEnabled = false; // تعطيل الفلتر عند التعديل
+                uscPersonCardWithFilter1.FilterEnabled = false;
                 LoadUserInfo();
             }
         }
@@ -84,7 +84,7 @@ namespace DVLD.Users
             uscPersonCardWithFilter1.LoadPersonInfo(_User.PersonID);
             txtUserID.Text = _User.UserID.ToString();
             txtUserName.Text = _User.UserName;
-            txtPassword.Text = _User.Password;
+            txtPassword.Text = _User.Password; // سينزل الـ Hash المشفّر
             txtConfimPassword.Text = _User.Password;
             cbIsActive.Checked = _User.IsActive;
         }
@@ -106,6 +106,7 @@ namespace DVLD.Users
         {
             this.Close();
         }
+
         private bool FillUserInfo()
         {
             if (uscPersonCardWithFilter1.PersonID == -1)
@@ -116,7 +117,18 @@ namespace DVLD.Users
 
             _User.PersonID = uscPersonCardWithFilter1.PersonID;
             _User.UserName = txtUserName.Text.Trim();
-            _User.Password = txtPassword.Text.Trim();
+
+            // ذكاء التشفير: تجنب إعادة تشفير الـ Hash المشفر مسبقاً إذا لم تتغير كلمة السر عند التعديل
+            if (_User.Mode == clsUser.enMode.Update && txtPassword.Text.Trim() == _User.Password)
+            {
+                // لا تغيير على كلمة السر
+            }
+            else
+            {
+                // كلمة سر جديدة (أو إضافة مستخدم جديد) -> تشفير كلمة السر
+                _User.Password = clsSecurity.ComputeHash(txtPassword.Text.Trim());
+            }
+
             _User.IsActive = cbIsActive.Checked;
 
             return true;
@@ -174,14 +186,9 @@ namespace DVLD.Users
 
         private void txtConfimPassword_Validating(object sender, CancelEventArgs e)
         {
-            if (txtConfimPassword.Text.Trim() != txtPassword.Text.Trim())
+            if (!clsValidating.ValidatePasswordMatch(txtPassword, txtConfimPassword, errorProvider))
             {
                 e.Cancel = true;
-                errorProvider.SetError(txtConfimPassword, "Password Confirmation does not match Password!");
-            }
-            else
-            {
-                errorProvider.SetError(txtConfimPassword, "");
             }
         }
     }

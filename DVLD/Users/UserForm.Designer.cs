@@ -1,4 +1,4 @@
-﻿namespace DVLD
+﻿namespace ValidationAttributes
 {
     partial class UserForm
     {

@@ -1,5 +1,5 @@
-﻿using DVLD;
-using DVLD.Users;
+﻿using ValidationAttributes;
+using ValidationAttributes.Users;
 using DVLD_Interface;
 using System;
 using System.Collections.Generic;
@@ -11,11 +11,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Golbal;
-using DVLD.Applications;
-using DVLD.Applicatios;
-using DVLD.Drivers;
-using DVLD.International;
-using DVLD.Detain_Release;
+using ValidationAttributes.Applications;
+using ValidationAttributes.Applicatios;
+using ValidationAttributes.Drivers;
+using ValidationAttributes.International;
+using ValidationAttributes.Detain_Release;
 
 namespace DVLDBusinessLayer
 {

@@ -32,6 +32,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -385,7 +388,7 @@
       <DependentUpon>uscPersonCardWithFilter.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
+      <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </EmbeddedResource>
@@ -421,6 +424,7 @@
     <None Include="..\.editorconfig">
       <Link>.editorconfig</Link>
     </None>
+    <None Include="app.manifest" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -454,6 +458,18 @@
     <ProjectReference Include="..\Golbal\Golbal.csproj">
       <Project>{f62dd247-cc1d-4e6a-acb4-64407a055ee2}</Project>
       <Name>Golbal</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LogEvent\LogEvent.csproj">
+      <Project>{c012da7d-b018-48aa-b1c4-ff5d800bcb38}</Project>
+      <Name>LogEvent</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Security\Security.csproj">
+      <Project>{86efd34f-c59a-4ec5-9a31-3872c5386c06}</Project>
+      <Name>Security</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ValidationAttributes.cs\ValidationAttributes.cs.csproj">
+      <Project>{f810f5ff-d509-4883-bbc0-ed40445538a1}</Project>
+      <Name>ValidationAttributes.cs</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,4 +1,4 @@
-﻿namespace DVLD.International
+﻿namespace ValidationAttributes.International
 {
     partial class ShowInternationalLicense
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.laTitle = new System.Windows.Forms.Label();
-            this.uscInternationalLicenseInfocard1 = new DVLD.International.uscInternationalLicenseInfocard();
+            this.uscInternationalLicenseInfocard1 = new ValidationAttributes.International.uscInternationalLicenseInfocard();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bClose = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();

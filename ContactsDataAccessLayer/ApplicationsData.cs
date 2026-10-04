@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
+using ConnectionStringDVLD;
+
 namespace DVLDDataAccessLayer
 {
     public class clsApplicationDataAccess
     {
-        private static string connectionString =ConnectionStringDVLD.Connection.connectionString ;
+        private static string connectionString = Connection.connectionString;
 
         public static bool GetApplicationInfoByID(int applicationID, ref int applicantPersonID,
             ref DateTime applicationDate, ref int applicationTypeID, ref int applicationStatus,

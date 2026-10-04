@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLDBusinessLayer;
-namespace DVLD
+namespace ValidationAttributes
 {
     public partial class ShowDetailsPersonForm : Form
     {

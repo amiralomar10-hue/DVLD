@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applications
+﻿namespace ValidationAttributes.Applications
 {
     partial class ReplacementforDamagedorLostLicenses
     {
@@ -41,7 +41,7 @@
             this.laAppDate = new System.Windows.Forms.Label();
             this.latxtApp = new System.Windows.Forms.Label();
             this.latxtAppFees = new System.Windows.Forms.Label();
-            this.uscLicenseCardWithFilter1 = new DVLD.International.uscLicenseCardWithFilter();
+            this.uscLicenseCardWithFilter1 = new ValidationAttributes.International.uscLicenseCardWithFilter();
             this.linkLabelInfo = new System.Windows.Forms.LinkLabel();
             this.linkLabelHistory = new System.Windows.Forms.LinkLabel();
             this.laTitle = new System.Windows.Forms.Label();

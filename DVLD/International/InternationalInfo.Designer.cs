@@ -1,6 +1,6 @@
-﻿using DVLD.International;
+﻿using ValidationAttributes.International;
 
-namespace DVLD
+namespace ValidationAttributes
 {
     partial class InternationalInfo
     {
@@ -52,7 +52,7 @@ namespace DVLD
             this.bClose = new System.Windows.Forms.Button();
             this.bIssue = new System.Windows.Forms.Button();
             this.laTitle = new System.Windows.Forms.Label();
-            this.uscLicenseCardWithFilter1 = new DVLD.International.uscLicenseCardWithFilter();
+            this.uscLicenseCardWithFilter1 = new ValidationAttributes.International.uscLicenseCardWithFilter();
             this.gbApplicationInfo.SuspendLayout();
             this.SuspendLayout();
             // 

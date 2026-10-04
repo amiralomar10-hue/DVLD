@@ -4,7 +4,7 @@ using System.Windows.Forms;
 using DVLDBusinessLayer;
 using Golbal;
 
-namespace DVLD.Applicatios
+namespace ValidationAttributes.Applicatios
 {
     public partial class ApplicationInfo : Form
     {

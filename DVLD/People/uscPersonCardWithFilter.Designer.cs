@@ -1,5 +1,5 @@
 ﻿using DVLDBusinessLayer;
-namespace DVLD.People
+namespace ValidationAttributes.People
 {
     partial class uscPersonCardWithFilter
     {
@@ -35,7 +35,7 @@ namespace DVLD.People
             this.bAdd = new System.Windows.Forms.Button();
             this.comboxFind = new System.Windows.Forms.ComboBox();
             this.laFind = new System.Windows.Forms.Label();
-            this.uscPersonCard1 = new DVLD.USCPersonCard();
+            this.uscPersonCard1 = new ValidationAttributes.USCPersonCard();
             this.gbFilter.SuspendLayout();
             this.SuspendLayout();
             // 

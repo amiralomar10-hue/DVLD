@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applicatios
+﻿namespace ValidationAttributes.Applicatios
 {
     partial class RenewLicenseAppInfo
     {
@@ -56,7 +56,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.laIssueDate = new System.Windows.Forms.Label();
             this.bIssue = new System.Windows.Forms.Button();
-            this.uscLicenseCardWithFilter1 = new DVLD.International.uscLicenseCardWithFilter();
+            this.uscLicenseCardWithFilter1 = new ValidationAttributes.International.uscLicenseCardWithFilter();
             this.gbApplicationInfo.SuspendLayout();
             this.SuspendLayout();
             // 

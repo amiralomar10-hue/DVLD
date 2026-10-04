@@ -1,4 +1,4 @@
-﻿namespace DVLD.Users
+﻿namespace ValidationAttributes.Users
 {
     partial class UserInfo
     {
@@ -32,7 +32,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UserInfo));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.uscPersonCardWithFilter1 = new DVLD.People.uscPersonCardWithFilter();
+            this.uscPersonCardWithFilter1 = new ValidationAttributes.People.uscPersonCardWithFilter();
             this.bNext = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.txtConfimPassword = new System.Windows.Forms.TextBox();
@@ -48,7 +48,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.bClose = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
-            this.uscPersonCardWithFitter1 = new DVLD.People.uscPersonCardWithFilter();
+            this.uscPersonCardWithFitter1 = new ValidationAttributes.People.uscPersonCardWithFilter();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage2.SuspendLayout();

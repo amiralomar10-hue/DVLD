@@ -76,6 +76,10 @@
       <Project>{f24a6272-ccc5-41fe-8ec8-e15a32f35364}</Project>
       <Name>DVLDDataAccessLayer</Name>
     </ProjectReference>
+    <ProjectReference Include="..\ValidationAttributes.cs\ValidationAttributes.cs.csproj">
+      <Project>{f810f5ff-d509-4883-bbc0-ed40445538a1}</Project>
+      <Name>ValidationAttributes.cs</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

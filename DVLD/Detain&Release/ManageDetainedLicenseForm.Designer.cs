@@ -1,4 +1,4 @@
-﻿namespace DVLD.Detain_Release
+﻿namespace ValidationAttributes.Detain_Release
 {
     partial class ManageDetainedLicenseForm
     {

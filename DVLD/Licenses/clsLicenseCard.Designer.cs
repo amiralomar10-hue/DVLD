@@ -1,4 +1,4 @@
-﻿namespace DVLD.Licenses
+﻿namespace ValidationAttributes.Licenses
 {
     partial class clsLicenseCard
     {

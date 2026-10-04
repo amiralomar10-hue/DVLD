@@ -3,15 +3,13 @@ using System.Windows.Forms;
 using DVLDBusinessLayer;
 using Microsoft.Win32;
 
-
 namespace DVLD_Interface
 {
     public partial class frmLogin : Form
     {
         clsUser User;
 
-        string keyPath =  @"HKEY_CURRENT_USER\Software\DVLD";
-
+        string keyPath = @"HKEY_CURRENT_USER\Software\DVLD";
         string valueName = "Loggin Info";
         string valueData = "";
 
@@ -20,16 +18,15 @@ namespace DVLD_Interface
             InitializeComponent();
             FillTextBoxes();
         }
-    
-       private void Form1_KeyDown(object sender, KeyEventArgs e)
-         {
+
+        private void Form1_KeyDown(object sender, KeyEventArgs e)
+        {
             if (e.KeyCode == Keys.Enter)
             {
                 e.SuppressKeyPress = true;
-
                 this.SelectNextControl(this.ActiveControl, true, true, true, true);
             }
-          }
+        }
 
         private void frmLogin_Load(object sender, EventArgs e)
         {
@@ -46,36 +43,38 @@ namespace DVLD_Interface
         protected override void WndProc(ref Message m)
         {
             base.WndProc(ref m);
-            if (m.Msg == 0x84) 
+            if (m.Msg == 0x84)
             {
-                m.Result = (IntPtr)0x2; 
+                m.Result = (IntPtr)0x2;
             }
         }
-
 
         private void FillTextBoxes()
         {
             try
             {
-                // Read the value from the Registry
-                string value = Registry.GetValue(keyPath, valueName, null) as string;
+                // 1. قراءة النص المشفر من الـ Registry
+                string encryptedValue = Registry.GetValue(keyPath, valueName, null) as string;
 
-
-                if (value != null)
+                if (!string.IsNullOrEmpty(encryptedValue))
                 {
+                    // 2. فك التشفير المتناظر (Symmetric Decryption)
+                    string decryptedValue = clsSecurity.DecryptText(encryptedValue);
 
-                    User = clsUser._ConvertLinetoUserObject(value);
-                    txtUsername.Text = User.UserName;
-                    txtPassword.Text = User.Password;
+                    // 3. تحويل النص بعد فك التشفير إلى كائن User
+                    User = clsUser._ConvertLinetoUserObject(decryptedValue);
+
+                    if (User != null)
+                    {
+                        txtUsername.Text = User.UserName;
+                        txtPassword.Text = User.Password; // كلمة السر الصريحة
+                        chkRememberMe.Checked = true;
+                    }
                 }
-                else
-                {
-                }
-               
             }
             catch (Exception ex)
             {
-
+                // إمكانية تسجيل الأخطاء هنا
             }
         }
 
@@ -114,26 +113,33 @@ namespace DVLD_Interface
 
         private bool SaveLogin()
         {
-
-            valueData = clsUser._ConverUserObjectToLine(User);
-
             try
             {
-                Registry.SetValue(keyPath, valueName, valueData, RegistryValueKind.String);
+                // الاحتفاظ بكلمة السر الصريحة في الكائن قبل التجميع حتى يتم إعادتها للتكست بوكس لاحقاً
+                User.Password = txtPassword.Text.Trim();
 
-
+                // 1. تحويل بيانات المستخدم لسطر نصي
+                string lineData = clsUser._ConverUserObjectToLine(User);
+                // 2. تشفير السطر بالتشفير المتناظر (Symmetric Encryption)
+                string encryptedData = clsSecurity.EncryptText(lineData);
+                // 3. حفظ النص المشفر في الـ Registry
+                Registry.SetValue(keyPath, valueName, encryptedData, RegistryValueKind.String);
+                return true;
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"An error occurred: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
             }
-
-            return true;
         }
 
         private void btnLogin_Click(object sender, EventArgs e)
         {
-            User = clsUser.GetUserInfoByUserNameAndPassword(txtUsername.Text, txtPassword.Text);
+            // 1. تحويل كلمة السر المدخلة إلى Hash (SHA-256) لمطابقتها مع الداتا بيز
+            string hashedPassword = clsSecurity.ComputeHash(txtPassword.Text.Trim());
+
+            // 2. البحث في قاعدة البيانات عن اسم المستخدم مع الـ Hashed Password
+            User = clsUser.GetUserInfoByUserNameAndPassword(txtUsername.Text.Trim(), hashedPassword);
 
             if (User != null)
             {
@@ -161,8 +167,6 @@ namespace DVLD_Interface
                     MainForm form = new MainForm();
                     form.ShowDialog();
                 }
-
-
             }
             else
             {

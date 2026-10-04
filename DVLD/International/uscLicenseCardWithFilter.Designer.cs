@@ -1,4 +1,4 @@
-﻿namespace DVLD.International
+﻿namespace ValidationAttributes.International
 {
     partial class uscLicenseCardWithFilter
     {
@@ -21,7 +21,7 @@
             this.bSearch = new System.Windows.Forms.Button();
             this.txtFind = new System.Windows.Forms.TextBox();
             this.laLicenseID = new System.Windows.Forms.Label();
-            this.clsLicenseCard1 = new DVLD.Licenses.clsLicenseCard();
+            this.clsLicenseCard1 = new ValidationAttributes.Licenses.clsLicenseCard();
             this.gbFilter.SuspendLayout();
             this.SuspendLayout();
             // 

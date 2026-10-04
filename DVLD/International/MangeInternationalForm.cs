@@ -1,4 +1,4 @@
-﻿using DVLD.Licenses;
+﻿using ValidationAttributes.Licenses;
 using DVLDBusinessLayer;
 using DVLDDataAccessLayer;
 using System;
@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DVLD.International
+namespace ValidationAttributes.International
 {
     public partial class MangeInternationalForm : Form
     {

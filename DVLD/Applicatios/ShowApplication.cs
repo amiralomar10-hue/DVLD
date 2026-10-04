@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DVLD.Applicatios
+namespace ValidationAttributes.Applicatios
 {
     public partial class ShowApplication : Form
     {

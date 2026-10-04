@@ -1,4 +1,4 @@
-﻿namespace DVLD.Users
+﻿namespace ValidationAttributes.Users
 {
     partial class ShowDetailsUserForm
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.bClose = new System.Windows.Forms.Button();
-            this.uscUserInfo1 = new DVLD.Users.uscUserInfo();
+            this.uscUserInfo1 = new ValidationAttributes.Users.uscUserInfo();
             this.SuspendLayout();
             // 
             // bClose

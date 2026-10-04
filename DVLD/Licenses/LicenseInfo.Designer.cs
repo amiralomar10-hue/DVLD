@@ -1,4 +1,4 @@
-﻿namespace DVLD.Licenses
+﻿namespace ValidationAttributes.Licenses
 {
     partial class LicenseInfo
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.clsLicenseCard1 = new DVLD.Licenses.clsLicenseCard();
+            this.clsLicenseCard1 = new ValidationAttributes.Licenses.clsLicenseCard();
             this.laTitle = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.bClose = new System.Windows.Forms.Button();

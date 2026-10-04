@@ -42,15 +42,19 @@ namespace DVLDDataAccessLayer
 
             return isFound;
         }
-        public static bool GetUserInfoByUserNameAndPassword(string UserName, string Password, ref int UserID, ref int PersonID)
+        public static bool GetUserInfoByUserNameAndPassword(string UserName, string Password, ref int UserID, ref int PersonID, ref bool IsActive)
         {
             bool isFound = false;
 
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT * FROM Users\r\nWHERE UserName = @UserName AND Password = @PassWord AND IsActive = 1";
+
+            // 1. إزالة الشرط "AND IsActive = 1" ليتمكن النظام من فحص حالة الحساب
+            string query = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password";
+
             SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue("@Password", Password);
+
             try
             {
                 connection.Open();
@@ -61,6 +65,9 @@ namespace DVLDDataAccessLayer
                     isFound = true;
                     UserID = (int)reader["UserID"];
                     PersonID = (int)reader["PersonID"];
+
+                    // 2. قراءة قيمة IsActive الفعلية من قاعدة البيانات وإسنادها لـ ref IsActive
+                    IsActive = (bool)reader["IsActive"];
                 }
                 reader.Close();
             }
@@ -75,7 +82,6 @@ namespace DVLDDataAccessLayer
 
             return isFound;
         }
-
         public static DataTable GetAllUsersIsNotActive()
         {
 

@@ -36,10 +36,12 @@
     <StartupObject />
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="ConnectionStringDVLD">
-      <HintPath>..\..\ConnectionStringDVLD\ConnectionStringDVLD\obj\Debug\ConnectionStringDVLD.dll</HintPath>
+    <Reference Include="ConnectionStringDVLD, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\ConnectionStringDVLD\ConnectionStringDVLD\bin\Debug\ConnectionStringDVLD.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />

@@ -1,9 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Text;
 
-namespace DVLD.Global_Classes
+namespace ValidationAttributes.Global_Classes
 {
     public static class clsUtil
     {
@@ -54,7 +54,7 @@ namespace DVLD.Global_Classes
             try
             {
                 File.Copy(sourceFile, destinationFilePath, true);
-                sourceFile = destinationFilePath; 
+                sourceFile = destinationFilePath;
                 return true;
             }
             catch (Exception ex)
@@ -62,33 +62,9 @@ namespace DVLD.Global_Classes
                 return false;
             }
         }
-       public static string EncryptText(string Text, short EncryptionKey = 2)
-        {
-            StringBuilder stringBuilder = new StringBuilder(Text);
-
-            for (int i = 0; i < Text.Length; i++)
-            {
-
-                stringBuilder[i] = Convert.ToChar(Convert.ToInt32(Text[i]) + EncryptionKey);
-            }
-            Text = stringBuilder.ToString();
-
-            return Text;
-
-        }
-
-        public static string DecryptText(string Text, short EncryptionKey = 2)
-        {
-            StringBuilder stringBuilder = new StringBuilder(Text);
-            for (int i = 0; i < Text.Length; i++)
-            {
-
-                stringBuilder[i]= Convert.ToChar(Convert.ToInt32(Text[i]) - EncryptionKey);
-
-            }
-            Text = stringBuilder.ToString();
-            return Text;
-
-        }
     }
 }
+      
+    
+    
+

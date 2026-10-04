@@ -1,4 +1,4 @@
-﻿namespace DVLD.Detain_Release
+﻿namespace ValidationAttributes.Detain_Release
 {
     partial class ReleaseForm
     {
@@ -36,7 +36,7 @@
             this.linkLabelHistory = new System.Windows.Forms.LinkLabel();
             this.bRelase = new System.Windows.Forms.Button();
             this.laTitle = new System.Windows.Forms.Label();
-            this.uscLicenseCardWithFilter1 = new DVLD.International.uscLicenseCardWithFilter();
+            this.uscLicenseCardWithFilter1 = new ValidationAttributes.International.uscLicenseCardWithFilter();
             this.gbApplicationInfo = new System.Windows.Forms.GroupBox();
             this.latxtTotFees = new System.Windows.Forms.Label();
             this.latxtAppFees = new System.Windows.Forms.Label();

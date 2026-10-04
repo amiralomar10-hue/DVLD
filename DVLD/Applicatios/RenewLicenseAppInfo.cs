@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using DVLD.Licenses;
+using ValidationAttributes.Licenses;
 using DVLDBusinessLayer;
 using Golbal;
 
-namespace DVLD.Applicatios
+namespace ValidationAttributes.Applicatios
 {
     public partial class RenewLicenseAppInfo : Form
     {

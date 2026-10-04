@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DVLD.Licenses
+namespace ValidationAttributes.Licenses
 {
     public partial class LicensesForm : Form
     {

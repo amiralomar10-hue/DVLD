@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class TakeTest
     {
@@ -30,7 +30,7 @@
         {
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.latxtTestID = new System.Windows.Forms.Label();
-            this.appointmentnfoCard1 = new DVLD.Tests.AppointmentnfoCard();
+            this.appointmentnfoCard1 = new ValidationAttributes.Tests.AppointmentnfoCard();
             this.laTitle = new System.Windows.Forms.Label();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.radioButton2 = new System.Windows.Forms.RadioButton();

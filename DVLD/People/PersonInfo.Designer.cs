@@ -42,7 +42,7 @@
             this.pictureBox = new System.Windows.Forms.PictureBox();
             this.comboBox = new System.Windows.Forms.ComboBox();
             this.txtPhone = new System.Windows.Forms.TextBox();
-            this.txtAdd = new System.Windows.Forms.TextBox();
+            this.txtAddress = new System.Windows.Forms.TextBox();
             this.txtEmail = new System.Windows.Forms.TextBox();
             this.txtNationalNo = new System.Windows.Forms.TextBox();
             this.txtLastName = new System.Windows.Forms.TextBox();
@@ -211,16 +211,14 @@
             this.txtPhone.Name = "txtPhone";
             this.txtPhone.Size = new System.Drawing.Size(184, 34);
             this.txtPhone.TabIndex = 51;
-            this.txtPhone.Validating += new System.ComponentModel.CancelEventHandler(this.txtPhone_Validating);
             // 
-            // txtAdd
+            // txtAddress
             // 
-            this.txtAdd.Location = new System.Drawing.Point(160, 372);
-            this.txtAdd.Multiline = true;
-            this.txtAdd.Name = "txtAdd";
-            this.txtAdd.Size = new System.Drawing.Size(746, 128);
-            this.txtAdd.TabIndex = 50;
-            this.txtAdd.Validating += new System.ComponentModel.CancelEventHandler(this.txtAdd_Validating);
+            this.txtAddress.Location = new System.Drawing.Point(160, 372);
+            this.txtAddress.Multiline = true;
+            this.txtAddress.Name = "txtAddress";
+            this.txtAddress.Size = new System.Drawing.Size(746, 128);
+            this.txtAddress.TabIndex = 50;
             // 
             // txtEmail
             // 
@@ -229,7 +227,6 @@
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(225, 31);
             this.txtEmail.TabIndex = 49;
-            this.txtEmail.Validating += new System.ComponentModel.CancelEventHandler(this.textBox7_Validating);
             // 
             // txtNationalNo
             // 
@@ -247,7 +244,6 @@
             this.txtLastName.Name = "txtLastName";
             this.txtLastName.Size = new System.Drawing.Size(183, 31);
             this.txtLastName.TabIndex = 47;
-            this.txtLastName.Validating += new System.ComponentModel.CancelEventHandler(this.txtLastName_Validating);
             // 
             // txtThirdName
             // 
@@ -256,7 +252,6 @@
             this.txtThirdName.Name = "txtThirdName";
             this.txtThirdName.Size = new System.Drawing.Size(184, 31);
             this.txtThirdName.TabIndex = 46;
-            this.txtThirdName.Validating += new System.ComponentModel.CancelEventHandler(this.txtLastName_Validating);
             // 
             // txtSecondName
             // 
@@ -265,7 +260,6 @@
             this.txtSecondName.Name = "txtSecondName";
             this.txtSecondName.Size = new System.Drawing.Size(174, 33);
             this.txtSecondName.TabIndex = 45;
-            this.txtSecondName.Validating += new System.ComponentModel.CancelEventHandler(this.txtSecondName_Validating);
             // 
             // txtFirstName
             // 
@@ -274,7 +268,6 @@
             this.txtFirstName.Name = "txtFirstName";
             this.txtFirstName.Size = new System.Drawing.Size(174, 33);
             this.txtFirstName.TabIndex = 44;
-            this.txtFirstName.Validating += new System.ComponentModel.CancelEventHandler(this.txtFirstName_Validating);
             // 
             // linkLaSet
             // 
@@ -438,7 +431,7 @@
             this.panel1.Controls.Add(this.pictureBox);
             this.panel1.Controls.Add(this.comboBox);
             this.panel1.Controls.Add(this.txtPhone);
-            this.panel1.Controls.Add(this.txtAdd);
+            this.panel1.Controls.Add(this.txtAddress);
             this.panel1.Controls.Add(this.txtEmail);
             this.panel1.Controls.Add(this.txtNationalNo);
             this.panel1.Controls.Add(this.txtLastName);
@@ -503,7 +496,7 @@
         public System.Windows.Forms.PictureBox pictureBox;
         public System.Windows.Forms.ComboBox comboBox;
         public System.Windows.Forms.TextBox txtPhone;
-        public System.Windows.Forms.TextBox txtAdd;
+        public System.Windows.Forms.TextBox txtAddress;
         public System.Windows.Forms.TextBox txtEmail;
         public System.Windows.Forms.TextBox txtNationalNo;
         public System.Windows.Forms.TextBox txtLastName;

@@ -11,7 +11,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace DVLD.International
+namespace ValidationAttributes.International
 {
     public partial class uscInternationalLicenseInfocard : UserControl
     {

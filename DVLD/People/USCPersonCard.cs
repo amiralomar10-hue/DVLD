@@ -3,7 +3,7 @@ using DVLDBusinessLayer;
 using System;
 using System.Windows.Forms;
 
-namespace DVLD
+namespace ValidationAttributes
 {
     public partial class USCPersonCard : UserControl
     {

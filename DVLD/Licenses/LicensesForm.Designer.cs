@@ -1,4 +1,4 @@
-﻿namespace DVLD.Licenses
+﻿namespace ValidationAttributes.Licenses
 {
     partial class LicensesForm
     {
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.laTitle = new System.Windows.Forms.Label();
-            this.uscPersonCardWithFilter1 = new DVLD.People.uscPersonCardWithFilter();
+            this.uscPersonCardWithFilter1 = new ValidationAttributes.People.uscPersonCardWithFilter();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.gbLicense = new System.Windows.Forms.GroupBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();

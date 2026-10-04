@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class AppointmentWithRetakeTest
     {
@@ -35,7 +35,7 @@
             this.laTestAppID = new System.Windows.Forms.Label();
             this.laTotalFees = new System.Windows.Forms.Label();
             this.laRetakeAppFees = new System.Windows.Forms.Label();
-            this.appointmentnfoCard1 = new DVLD.Tests.AppointmentnfoCard();
+            this.appointmentnfoCard1 = new ValidationAttributes.Tests.AppointmentnfoCard();
             this.gbRetake.SuspendLayout();
             this.SuspendLayout();
             // 

@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Windows.Forms;
-using DVLD.International;
-using DVLD.Licenses;
+using ValidationAttributes.International;
+using ValidationAttributes.Licenses;
 using DVLDBusinessLayer;
 using Golbal;
 
-namespace DVLD
+namespace ValidationAttributes
 {
     public partial class InternationalInfo : Form
     {

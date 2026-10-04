@@ -6,12 +6,15 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using DVLDDataAccessLayer;
+using ValidationAttributes; // إضافة المجلد الحاوي على ValidationAttributes.cs
+
 namespace DVLDBusinessLayer
 {
     public enum enGendor
     {
         Male, Femail
     };
+
     public enum enModePerson
     {
         AddNewMode, UpdateMode
@@ -19,23 +22,42 @@ namespace DVLDBusinessLayer
 
     public class clsPeople
     {
-
-
         public int PersonID { get; set; }
+
+        // ==================== Attributes الفحص ====================
+
+        [Required("National No is required!")]
+        [StringLength(2, 20, "National No must be between 2 and 20 characters.")]
         public string NationalNo { get; set; }
+
+        [Required("First Name is required!")]
         public string FirstName { get; set; }
+
+        [Required("Second Name is required!")]
         public string SecondName { get; set; }
-        public string ThirdName { get; set; }
+
+        public string ThirdName { get; set; } // اختياري (بدون Attributes)
+
+        [Required("Last Name is required!")]
         public string LastName { get; set; }
 
-        public string FullName { get; set; }    
+        public string FullName { get; set; }
         public DateTime DateOfBirth { get; set; }
         public int Gender { get; set; }
-        public string Address { get; set; }
-        public string Phone { get; set; }
-        public string Email { get; set; }
-        public int NationalityCountryID { get; set; }
 
+        [Required("Address is required!")]
+        public string Address { get; set; }
+
+        [Required("Phone number is required!")]
+        [RegularExpression(@"^[0-9]+$", "Invalid Phone Number Format.")]
+        public string Phone { get; set; }
+
+        [RegularExpression(@"^[a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", "Invalid Email Address Format.")]
+        public string Email { get; set; }
+
+        // =========================================================
+
+        public int NationalityCountryID { get; set; }
         public string ImagePath { get; set; }
         public clsCountries CountryInfo;
         public enModePerson Mode { get; set; }
@@ -59,8 +81,6 @@ namespace DVLDBusinessLayer
             Mode = enModePerson.AddNewMode;
         }
 
-
-
         private clsPeople(int personID, string nationalNo, string firstName, string secondName, string thirdName,
                       string lastName, DateTime dateOfBirth, int gender, string address,
                       string phone, string email, int nationalityCountryID, string imagePath, enModePerson mode)
@@ -80,9 +100,8 @@ namespace DVLDBusinessLayer
             this.NationalityCountryID = nationalityCountryID;
             this.ImagePath = imagePath;
             this.Mode = mode;
-          CountryInfo = clsCountries.Find(NationalityCountryID);
+            CountryInfo = clsCountries.Find(NationalityCountryID);
         }
-
 
         public static DataTable getAllPeople()
         {
@@ -92,12 +111,10 @@ namespace DVLDBusinessLayer
         private bool _AddNewPeople()
         {
             PersonID = DVLDDataAccessLayer.PeopleData.AddNewPeople(NationalNo, FirstName, SecondName, ThirdName, LastName, DateOfBirth, Gender, Address, Phone, Email, NationalityCountryID, ImagePath);
-
             return (PersonID != -1);
         }
         public static clsPeople GetClsPeopleByNationalNO(string nationalNo)
         {
-
             int personID = -1;
             string firstName = "";
             string secondName = "";
@@ -110,48 +127,49 @@ namespace DVLDBusinessLayer
             string email = "";
             int nationalityCountryID = -1;
             string imagePath = "";
-            if (DVLDDataAccessLayer.PeopleData.GetPersonByNationalNo( nationalNo,ref personID, ref firstName, ref secondName, ref thirdName, ref lastName, ref dateOfBirth, ref gender, ref address, ref phone, ref email, ref nationalityCountryID, ref imagePath))
+
+            if (DVLDDataAccessLayer.PeopleData.GetPersonByNationalNo(nationalNo, ref personID, ref firstName, ref secondName, ref thirdName, ref lastName, ref dateOfBirth, ref gender, ref address, ref phone, ref email, ref nationalityCountryID, ref imagePath))
             {
-                return new clsPeople(personID,nationalNo, firstName, secondName, thirdName, lastName, dateOfBirth, gender, address, phone, email, nationalityCountryID, imagePath, enModePerson.UpdateMode);
+                return new clsPeople(personID, nationalNo, firstName, secondName, thirdName, lastName, dateOfBirth, gender, address, phone, email, nationalityCountryID, imagePath, enModePerson.UpdateMode);
             }
 
             return new clsPeople();
         }
 
-
         public static clsPeople ShowDetailsPerson(int personID)
         {
             string nationalNo = "";
             string firstName = "";
-            string secondName = ""; 
+            string secondName = "";
             string thirdName = "";
             string lastName = "";
             DateTime dateOfBirth = DateTime.Now;
-            int gender = -1; 
+            int gender = -1;
             string address = "";
             string phone = "";
             string email = "";
             int nationalityCountryID = -1;
             string imagePath = "";
+
             if (DVLDDataAccessLayer.PeopleData.getPersonByPersonID(personID, ref nationalNo, ref firstName, ref secondName, ref thirdName, ref lastName, ref dateOfBirth, ref gender, ref address, ref phone, ref email, ref nationalityCountryID, ref imagePath))
             {
-                return new clsPeople(personID,nationalNo , firstName , secondName , thirdName , lastName , dateOfBirth , gender , address , phone , email  , nationalityCountryID , imagePath , enModePerson.UpdateMode);
+                return new clsPeople(personID, nationalNo, firstName, secondName, thirdName, lastName, dateOfBirth, gender, address, phone, email, nationalityCountryID, imagePath, enModePerson.UpdateMode);
             }
 
-            return new clsPeople(); 
+            return new clsPeople();
         }
 
         private bool _UpadtePeople()
         {
             return PeopleData.UpdatePerson(PersonID, NationalNo, FirstName, SecondName, ThirdName, LastName, Email, Gender, Phone, Address, NationalityCountryID, DateOfBirth, ImagePath);
         }
+
         public bool Save()
         {
-
             switch (Mode)
             {
                 case enModePerson.AddNewMode:
-                    if( _AddNewPeople())
+                    if (_AddNewPeople())
                     {
                         this.Mode = enModePerson.UpdateMode;
                         return true;
@@ -163,7 +181,6 @@ namespace DVLDBusinessLayer
 
                 case enModePerson.UpdateMode:
                     return _UpadtePeople();
-
             }
             return false;
         }
@@ -177,10 +194,10 @@ namespace DVLDBusinessLayer
         {
             return PeopleData.IsExistPerson(NationalNo);
         }
+
         public static bool IsExist(int Person)
         {
             return PeopleData.IsExistPerson(Person);
         }
-       
     }
 }

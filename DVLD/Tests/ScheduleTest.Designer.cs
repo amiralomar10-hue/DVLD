@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class ScheduleTest
     {
@@ -34,7 +34,7 @@
             this.bClose = new System.Windows.Forms.Button();
             this.bSave = new System.Windows.Forms.Button();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.appointmentWithRetakeTest1 = new DVLD.Tests.AppointmentWithRetakeTest();
+            this.appointmentWithRetakeTest1 = new ValidationAttributes.Tests.AppointmentWithRetakeTest();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();

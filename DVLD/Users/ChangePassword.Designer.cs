@@ -1,4 +1,4 @@
-﻿namespace DVLD.Users
+﻿namespace ValidationAttributes.Users
 {
     partial class ChangePassword
     {
@@ -30,7 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ChangePassword));
-            this.uscUserInfo1 = new DVLD.Users.uscUserInfo();
+            this.uscUserInfo1 = new ValidationAttributes.Users.uscUserInfo();
             this.txtConfimPassword = new System.Windows.Forms.TextBox();
             this.txtNewPassword = new System.Windows.Forms.TextBox();
             this.txtCurrentPassword = new System.Windows.Forms.TextBox();

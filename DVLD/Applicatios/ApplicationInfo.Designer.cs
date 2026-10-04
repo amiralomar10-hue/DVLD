@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applicatios
+﻿namespace ValidationAttributes.Applicatios
 {
     partial class ApplicationInfo
     {
@@ -31,7 +31,7 @@
             this.laTitle = new System.Windows.Forms.Label();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.uscPersonCardWithFitter1 = new DVLD.People.uscPersonCardWithFilter();
+            this.uscPersonCardWithFitter1 = new ValidationAttributes.People.uscPersonCardWithFilter();
             this.bNext = new System.Windows.Forms.Button();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.cbLicenseClass = new System.Windows.Forms.ComboBox();

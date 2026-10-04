@@ -1,4 +1,4 @@
-﻿namespace DVLD.Detain_Release
+﻿namespace ValidationAttributes.Detain_Release
 {
     partial class DetainForm
     {
@@ -33,7 +33,7 @@
             this.latxtDetainDate = new System.Windows.Forms.Label();
             this.linkLabelHistory = new System.Windows.Forms.LinkLabel();
             this.laTitle = new System.Windows.Forms.Label();
-            this.uscLicenseCardWithFilter1 = new DVLD.International.uscLicenseCardWithFilter();
+            this.uscLicenseCardWithFilter1 = new ValidationAttributes.International.uscLicenseCardWithFilter();
             this.latxtDetainID = new System.Windows.Forms.Label();
             this.gbApplicationInfo = new System.Windows.Forms.GroupBox();
             this.linkLabelInfo = new System.Windows.Forms.LinkLabel();

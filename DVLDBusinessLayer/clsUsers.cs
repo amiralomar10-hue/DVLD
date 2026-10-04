@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Data;
-using DVLD.Global_Classes;
 using DVLDDataAccessLayer;
 
 namespace DVLDBusinessLayer
@@ -13,7 +12,7 @@ namespace DVLDBusinessLayer
         public int UserID { get; set; }
         public int PersonID { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
+        public string Password { get; set; } // يحوي دائماً الـ Hash (SHA-256) عند التعامل مع الداتا بيز
         public bool IsActive { get; set; }
 
         public clsUser()
@@ -22,31 +21,76 @@ namespace DVLDBusinessLayer
             this.PersonID = -1;
             this.UserName = "";
             this.Password = "";
-            this.IsActive = true;
-
+            this.IsActive = false;
             Mode = enMode.AddNew;
         }
 
-        private clsUser(int UserID, int PersonID, string UserName, string Password, bool IsActive)
+        private clsUser(int userID, int personID, string userName, string password, bool isActive)
         {
-            this.UserID = UserID;
-            this.PersonID = PersonID;
-            this.UserName = UserName;
-            this.Password = Password;
-            this.IsActive = IsActive;
-
+            this.UserID = userID;
+            this.PersonID = personID;
+            this.UserName = userName;
+            this.Password = password;
+            this.IsActive = isActive;
             Mode = enMode.Update;
         }
 
-        public static clsUser GetUserInfoByUserID(int UserID)
-        {
-            int PersonID = -1;
-            string UserName = "", Password = "";
-            bool IsActive = false;
+        // =========================================================================
+        // 1. دوال تحويل الكائن لسطر نصي وبالعكس (تستعمل لخيار "تذكرني" بالـ Registry)
+        // =========================================================================
 
-            if (clsUserData.GetUserInfoByUserID(UserID, ref PersonID, ref UserName, ref Password, ref IsActive))
+        public static string _ConverUserObjectToLine(clsUser user, string separator = "#//#")
+        {
+            if (user == null) return "";
+            return $"{user.UserName}{separator}{user.Password}";
+        }
+
+        public static clsUser _ConvertLinetoUserObject(string line, string separator = "#//#")
+        {
+            if (string.IsNullOrEmpty(line)) return null;
+
+            string[] result = line.Split(new string[] { separator }, StringSplitOptions.None);
+
+            if (result.Length >= 2)
             {
-                return new clsUser(UserID, PersonID, UserName, Password, IsActive);
+                clsUser user = new clsUser();
+                user.UserName = result[0];
+                user.Password = result[1]; // كلمة السر الصريحة المفرغة من الـ Registry
+                return user;
+            }
+
+            return null;
+        }
+
+        // =========================================================================
+        // 2. دوال الجلب والتحقق من قاعدة البيانات
+        // =========================================================================
+
+        // تسجيل الدخول: يستقبل اسم المستخدم والـ Hash المشفّر لمطابقتهم في SQL Server
+        public static clsUser GetUserInfoByUserNameAndPassword(string userName, string hashedPassword)
+        {
+            int userID = -1, personID = -1;
+            bool isActive = false;
+
+            if (clsUserData.GetUserInfoByUserNameAndPassword(userName, hashedPassword, ref userID, ref personID , ref isActive))
+            {
+                return new clsUser(userID, personID, userName, hashedPassword, isActive);
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static clsUser GetUserInfoByUserID(int userID)
+        {
+            int personID = -1;
+            string userName = "", password = "";
+            bool isActive = false;
+
+            if (clsUserData.GetUserInfoByUserID(userID, ref personID, ref userName, ref password, ref isActive))
+            {
+                return new clsUser(userID, personID, userName, password, isActive);
             }
             else
             {
@@ -59,8 +103,19 @@ namespace DVLDBusinessLayer
             return clsUserData.GetAllUsers();
         }
 
+   
+
+        public static bool IsUserExistForPersonID(int personID)
+        {
+            return clsUserData.IsUserExistForPersonID(personID);
+        }
+
+        // =========================================================================
+        // 3. دوال الحفظ والتعديل
+        // =========================================================================
         private bool _AddNewUser()
         {
+            // يُفترض أن this.Password قد تم تحويله إلى Hash في الواجهة قبل الاستدعاء
             this.UserID = clsUserData.AddNewUser(this.PersonID, this.UserName, this.Password, this.IsActive);
             return (this.UserID != -1);
         }
@@ -80,10 +135,7 @@ namespace DVLDBusinessLayer
                         Mode = enMode.Update;
                         return true;
                     }
-                    else
-                    {
-                        return false;
-                    }
+                    return false;
 
                 case enMode.Update:
                     return _UpdateUser();
@@ -97,81 +149,14 @@ namespace DVLDBusinessLayer
             return clsUserData.DeleteUser(UserID);
         }
 
-        public static bool IsUserExist(int UserID)
-        {
-            return clsUserData.IsUserExistForUserID(UserID);
-        }
-
-        public static bool IsUserExistForPersonID(int PersonID)
-        {
-            return clsUserData.IsUserExistForPersonID(PersonID);
-        }
-        public static bool IsUserExistForUserNameAndPassWord(string UserName , string Password)
-        {
-            return clsUserData.IsUserExistForUserNameAndPassWord(UserName , Password);
-        }
-
         public static DataTable GetAllUsersIsActive()
         {
             return clsUserData.GetAllUsersIsActive();
         }
+        public static DataTable GetUsersIsNotActive()
+        {
 
-        public static DataTable GetUsersIsNotActive() { 
-        
             return clsUserData.GetAllUsersIsNotActive();
-        }
-        public static clsUser GetUserInfoByUserNameAndPassword(string UserName ,string Password)
-        {
-            int UserID = -1;
-            int PersonID = -1;
-          
-            if (clsUserData.GetUserInfoByUserNameAndPassword(UserName ,Password ,ref UserID, ref PersonID))
-            {
-                return new clsUser(UserID, PersonID, UserName, Password, true);
-            }
-            else
-            {
-                return null;
-            }
-        }
-        public static clsUser _ConvertLinetoUserObject(string Line, string Seperator = "#//#")
-        {
-            if (string.IsNullOrWhiteSpace(Line))
-                return null;
-
-            string[] vUserData = Line.Split(new string[] { Seperator }, StringSplitOptions.None);
-
-            // حماية: التأكد من أن السطر يحتوي على جميع الحقول الخمسة المطلوبة
-            if (vUserData.Length < 5)
-                return null;
-
-            return new clsUser(
-                Convert.ToInt32(vUserData[0]),         // UserID
-                Convert.ToInt32(vUserData[1]),         // PersonID
-                vUserData[2],                          // UserName
-                clsUtil.DecryptText(vUserData[3]),     // Password
-                Convert.ToBoolean(vUserData[4])        // IsActive
-            );
-        }
-
-        public static string _ConverUserObjectToLine(clsUser User, string Seperator = "#//#")
-        {
-            if (User == null)
-                return "";
-
-            // حماية: التأكد من عدم تمرير نص فارغ للتشفير إن كانت خوارزمية التشفير لا تدعمه
-            string encryptedPassword = string.IsNullOrEmpty(User.Password)
-                ? ""
-                : clsUtil.EncryptText(User.Password);
-
-            string UserRecord = "";
-            UserRecord += User.UserID.ToString() + Seperator;
-            UserRecord += User.PersonID.ToString() + Seperator;
-            UserRecord += User.UserName + Seperator;
-            UserRecord += encryptedPassword + Seperator;
-            UserRecord += Convert.ToString(User.IsActive);
-
-            return UserRecord;
         }
     }
 }

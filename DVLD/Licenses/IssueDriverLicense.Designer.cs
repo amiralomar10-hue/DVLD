@@ -1,4 +1,4 @@
-﻿namespace DVLD.Tests
+﻿namespace ValidationAttributes.Tests
 {
     partial class IssueDriverLicense
     {
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.ldlAppilcationCard1 = new DVLD.Tests.LDLAppilcationCard();
+            this.ldlAppilcationCard1 = new ValidationAttributes.Tests.LDLAppilcationCard();
             this.txtNotes = new System.Windows.Forms.TextBox();
             this.bClose = new System.Windows.Forms.Button();
             this.bIssue = new System.Windows.Forms.Button();

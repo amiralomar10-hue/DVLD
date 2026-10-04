@@ -1,10 +1,10 @@
 ﻿using System;
 using System.Windows.Forms;
-using DVLD.Licenses;
+using ValidationAttributes.Licenses;
 using DVLDBusinessLayer;
 using Golbal;
 
-namespace DVLD.Applications
+namespace ValidationAttributes.Applications
 {
     public partial class ReplacementforDamagedorLostLicenses : Form
     {

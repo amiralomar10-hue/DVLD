@@ -1,5 +1,5 @@
-﻿using DVLD.International;
-using DVLD.Licenses;
+﻿using ValidationAttributes.International;
+using ValidationAttributes.Licenses;
 using DVLDBuisnessLayer;
 using DVLDBusinessLayer;
 using System;
@@ -14,7 +14,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
-namespace DVLD.Detain_Release
+namespace ValidationAttributes.Detain_Release
 {
     public partial class ManageDetainedLicenseForm : Form
     {

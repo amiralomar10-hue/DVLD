@@ -1,4 +1,4 @@
-﻿namespace DVLD.Applications
+﻿namespace ValidationAttributes.Applications
 {
     partial class TestForm
     {

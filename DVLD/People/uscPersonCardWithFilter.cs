@@ -2,7 +2,7 @@
 using System.Windows.Forms;
 using DVLDBusinessLayer;
 
-namespace DVLD.People
+namespace ValidationAttributes.People
 {
     public partial class uscPersonCardWithFilter : UserControl
     {
