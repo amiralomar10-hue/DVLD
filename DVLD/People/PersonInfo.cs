@@ -180,6 +180,7 @@ namespace DVLDBusinessLayer
             if (person.PersonID != -1)
             {
                 laID.Text = person.PersonID.ToString();
+               
             }
             else
             {
@@ -252,6 +253,7 @@ namespace DVLDBusinessLayer
                 if (person.Save())
                 {
                     laID.Text = person.PersonID.ToString();
+                    _ID = person.PersonID;
                     MessageBox.Show("Data Saved Successfully.", "Saved", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
                     HandlePictureImage();

@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using ConnectionStringDVLD;
 using System.Data.SqlClient;
 using System.Net;
@@ -19,9 +15,8 @@ namespace DVLDDataAccessLayer
             DataTable dt = new DataTable();
 
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM ApplicationTypes\r\n";
-            SqlCommand cmd = new SqlCommand(query, connection);
-
+            SqlCommand cmd = new SqlCommand("SP_GetAllApplicationTypes", connection);
+            cmd.CommandType = CommandType.StoredProcedure; 
             try
             {
                 connection.Open();
@@ -48,9 +43,10 @@ namespace DVLDDataAccessLayer
         public static bool getApplicationTypesByID(int id , ref string ApplicationTypeTitle , ref decimal ApplicationFees) {
             bool isFound = false;
             SqlConnection conn = new SqlConnection(connectionString);
-            string query = "SELECT * FROM ApplicationTypes \r\nWHERE ApplicationTypeID = @id";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@id", id);
+
+            SqlCommand cmd = new SqlCommand("SP_GetApplicationTypesByID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@ApplicationTypeID", id);
             try
             {
                 conn.Open();
@@ -78,12 +74,9 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"UPDATE ApplicationTypes
-                         SET ApplicationTypeTitle = @ApplicationTypeTitle,
-                             ApplicationFees = @ApplicationFees 
-                             WHERE ApplicationTypeID = @ApplicationTypeID";
-
-            SqlCommand command = new SqlCommand(query, connection);
+   
+            SqlCommand command = new SqlCommand("SP_UpdateApplicatonType", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@ApplicationTypeID", ID);
             command.Parameters.AddWithValue("@ApplicationTypeTitle", ApplicationTypeTitle);
             command.Parameters.AddWithValue("@ApplicationFees", ApplicationFees);

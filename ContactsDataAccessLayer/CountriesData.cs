@@ -22,9 +22,8 @@ namespace DVLDDataAccessLayer
             DataTable dt = new DataTable();
 
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT * FROM Countries";
-            SqlCommand cmd = new SqlCommand(query, connection);
-
+            SqlCommand cmd = new SqlCommand("SP_GetAllCountries", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
             try
             {
                 connection.Open();
@@ -52,9 +51,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection conn = new SqlConnection(connectionString);
-            string query = "SELECT * FROM Countries where CountryID = @id";
-            SqlCommand cmd = new SqlCommand(query, conn);
-            cmd.Parameters.AddWithValue("@id", id);
+            SqlCommand cmd = new SqlCommand("SP_GetCountryNameByID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
+            cmd.Parameters.AddWithValue("@CountryID", id);
             try
             {
                 conn.Open();

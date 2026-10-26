@@ -15,8 +15,8 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM Licenses WHERE LicenseID = @LicenseID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLicenseInfoByID", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@LicenseID", LicenseID);
 
             try
@@ -58,8 +58,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM Licenses WHERE ApplicationID = @ApplicationID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLicenseInfoByAppID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
 
             try
@@ -98,12 +99,10 @@ namespace DVLDDataAccessLayer
         {
             DataTable dt = new DataTable();
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"SELECT Licenses.LicenseID, Licenses.ApplicationID, Licenses.IssueDate, Licenses.ExpirationDate, Licenses.IsActive
-                             FROM Licenses INNER JOIN            
-                             Drivers ON Licenses.DriverID = Drivers.DriverID INNER JOIN            
-                             People ON Drivers.PersonID = People.PersonID 
-                             WHERE Drivers.PersonID = @PersonID";
-            SqlCommand command = new SqlCommand(query, connection);
+    
+            SqlCommand command = new SqlCommand("SP_GetLicenseInfoByPersonID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@PersonID", personID);
             try
             {
@@ -133,8 +132,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM Licenses WHERE ApplicationID = @ApplicationID AND LicenseClassID = @LicenseClassID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLicenseByAppIDAndLicenseClassID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
             try
@@ -173,8 +173,8 @@ namespace DVLDDataAccessLayer
         {
             DataTable dt = new DataTable();
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM Licenses";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetAllLicenses", connection);
+            command.CommandType = CommandType.StoredProcedure;
 
             try
             {
@@ -202,17 +202,14 @@ namespace DVLDDataAccessLayer
           bool IsActive, byte IssueReason, int CreatedByUserID)
         {
             int LicenseID = -1;
-
-            string query = @"INSERT INTO Licenses (ApplicationID, DriverID, LicenseClassID, IssueDate, ExpirationDate, Notes, PaidFees, IsActive, IssueReason, CreatedByUserID)
-                             VALUES (@ApplicationID, @DriverID, @LicenseClassID, @IssueDate, @ExpirationDate, @Notes, @PaidFees, @IsActive, @IssueReason, @CreatedByUserID);
-                             SELECT SCOPE_IDENTITY();";
-
             try
             {
                 using (SqlConnection connection = new SqlConnection(connectionstring))
                 {
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlCommand command = new SqlCommand("SP_AddNewLicense", connection))
                     {
+                        command.CommandType = CommandType.StoredProcedure;
+
                         command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
                         command.Parameters.AddWithValue("@DriverID", DriverID);
                         command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
@@ -253,20 +250,11 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"UPDATE Licenses    
-                             SET ApplicationID = @ApplicationID,
-                                 DriverID = @DriverID,
-                                 LicenseClassID = @LicenseClassID,
-                                 IssueDate = @IssueDate,
-                                 ExpirationDate = @ExpirationDate,
-                                 Notes = @Notes,
-                                 PaidFees = @PaidFees,
-                                 IsActive = @IsActive,
-                                 IssueReason = @IssueReason,
-                                 CreatedByUserID = @CreatedByUserID
-                             WHERE LicenseID = @LicenseID";
+  
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_UpdateLicense", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseID", LicenseID);
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
             command.Parameters.AddWithValue("@DriverID", DriverID);
@@ -304,9 +292,10 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"UPDATE Licenses SET IsActive = 0 WHERE LicenseID = @LicenseID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_DeactivateLicense", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseID", LicenseID);
             try
             {
@@ -329,8 +318,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT Found = 1 FROM Licenses WHERE LicenseID = @LicenseID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_ISlicenseExsitByLicenseID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseID", LicenseID);
 
             try
@@ -356,8 +346,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT Found = 1 FROM Licenses WHERE ApplicationID = @ApplicationID AND LicenseClassID = @LicenseClassID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_ISlicenseExsitByAppIDAndLicenseClassID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 
@@ -384,8 +375,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"SELECT Found = 1 FROM Licenses WHERE LicenseID = @LicenseID AND ExpirationDate < GETDATE()";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_IsLicenseExpired", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseID", LicenseID);
             try
             {
@@ -420,6 +412,7 @@ namespace DVLDDataAccessLayer
                                AND Licenses.IsActive = 1";
 
             SqlCommand command = new SqlCommand(query, connection);
+            command.CommandType = CommandType.StoredProcedure;
 
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);

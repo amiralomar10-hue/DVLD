@@ -12,8 +12,8 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
 
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT * FROM Users WHERE UserID = @UserID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetUserInfoByUserID", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@UserID", UserID);
 
             try
@@ -48,10 +48,10 @@ namespace DVLDDataAccessLayer
 
             SqlConnection connection = new SqlConnection(ConnectionString);
 
-            // 1. إزالة الشرط "AND IsActive = 1" ليتمكن النظام من فحص حالة الحساب
-            string query = "SELECT * FROM Users WHERE UserName = @UserName AND Password = @Password";
+            
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetUserInfoByUserNameAndPassword", connection);
+            command.CommandType= CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue("@Password", Password);
 
@@ -66,7 +66,6 @@ namespace DVLDDataAccessLayer
                     UserID = (int)reader["UserID"];
                     PersonID = (int)reader["PersonID"];
 
-                    // 2. قراءة قيمة IsActive الفعلية من قاعدة البيانات وإسنادها لـ ref IsActive
                     IsActive = (bool)reader["IsActive"];
                 }
                 reader.Close();
@@ -88,9 +87,8 @@ namespace DVLDDataAccessLayer
             {
                 DataTable dt = new DataTable();
                 SqlConnection connection = new SqlConnection(ConnectionString);
-                string query = "SELECT Users.UserID,\r\nUsers.PersonID, People.FirstName + ' ' + People.SecondName + ' '  + People.ThirdName + ' ' + People.LastName AS [Full Name], \r\nUsers.UserName, Users.Password, \r\nCASE \r\n        WHEN IsActive = 1 THEN 'Yes'\r\n\t\tELSE 'No'\r\n\t\tEnd AS [Is Active]  \r\nFROM     Users INNER JOIN People ON Users.PersonID = People.PersonID\r\nwhere IsActive = 0";
-                SqlCommand command = new SqlCommand(query, connection);
-
+                SqlCommand command = new SqlCommand("SP_GetAllUsersIsNotActive", connection);
+                command.CommandType = CommandType.StoredProcedure;
                 try
                 {
                     connection.Open();
@@ -120,9 +118,8 @@ namespace DVLDDataAccessLayer
             {
                 DataTable dt = new DataTable();
                 SqlConnection connection = new SqlConnection(ConnectionString);
-                string query = "SELECT Users.UserID,\r\nUsers.PersonID, People.FirstName + ' ' + People.SecondName + ' '  + People.ThirdName + ' ' + People.LastName AS [Full Name], \r\nUsers.UserName, Users.Password, \r\nCASE \r\n        WHEN IsActive = 1 THEN 'Yes'\r\n\t\tELSE 'No'\r\n\t\tEnd AS [Is Active]  \r\nFROM     Users INNER JOIN People ON Users.PersonID = People.PersonID\r\nwhere IsActive = 1";
-                SqlCommand command = new SqlCommand(query, connection);
-
+                SqlCommand command = new SqlCommand("SP_GetAllUsersIsActive", connection);
+                command.CommandType= CommandType.StoredProcedure;
                 try
                 {
                     connection.Open();
@@ -150,9 +147,8 @@ namespace DVLDDataAccessLayer
         {
             DataTable dt = new DataTable();
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT Users.UserID,\r\nUsers.PersonID, People.FirstName + ' ' + People.SecondName + ' '  + People.ThirdName + ' ' + People.LastName AS [Full Name], \r\nUsers.UserName, Users.Password, \r\nCASE \r\n        WHEN IsActive = 1 THEN 'Yes'\r\n\t\tELSE 'No'\r\n\t\tEnd AS [Is Active] \r\nFROM     Users INNER JOIN People ON Users.PersonID = People.PersonID";
-            SqlCommand command = new SqlCommand(query, connection);
-
+            SqlCommand command = new SqlCommand("SP_GetAllUsers", connection);
+            command.CommandType = CommandType.StoredProcedure;
             try
             {
                 connection.Open();
@@ -181,11 +177,10 @@ namespace DVLDDataAccessLayer
             int UserID = -1;
 
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = @"INSERT INTO Users (PersonID, UserName, Password, IsActive)
-                             VALUES (@PersonID, @UserName, @Password, @IsActive);
-                             SELECT SCOPE_IDENTITY();";
+           
+            SqlCommand command = new SqlCommand("SP_AddNewUser", connection);
 
-            SqlCommand command = new SqlCommand(query, connection);
+            command.CommandType= CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue("@Password", Password);
@@ -217,14 +212,11 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = @"UPDATE Users
-                         SET PersonID = @PersonID,
-                                 UserName = @UserName,
-                                 Password = @Password,
-                                 IsActive = @IsActive
-                             WHERE UserID = @UserID";
+          
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_UpdateUser", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@UserID", UserID);
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@UserName", UserName);
@@ -252,8 +244,9 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "DELETE FROM Users WHERE UserID = @UserID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_DeleteUser", connection);
+            command.CommandType=CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@UserID", UserID);
 
             try
@@ -277,8 +270,8 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT Found = 1 FROM Users WHERE UserID = @UserID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_IsUserExistForUserID", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@UserID", UserID);
 
             try
@@ -304,8 +297,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT Found = 1 FROM Users WHERE PersonID = @PersonID";
-            SqlCommand command = new SqlCommand(query, connection);
+            
+            SqlCommand command = new SqlCommand("SP_IsUserExistForPersonID", connection);
+            command.CommandType= CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@PersonID", PersonID);
 
             try
@@ -331,8 +325,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(ConnectionString);
-            string query = "SELECT Found =1  FROM Users\r\nWHERE UserName = @UserName AND Password = @PassWord AND IsActive = 1";
-            SqlCommand command = new SqlCommand(query, connection);
+        
+            SqlCommand command = new SqlCommand("SP_IsUserExistForUserNameAndPassWord", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@UserName", UserName);
             command.Parameters.AddWithValue ("@Password", PassWord);
             try

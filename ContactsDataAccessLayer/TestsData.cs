@@ -17,9 +17,10 @@ public class clsTestData
         bool isFound = false;
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            string query = "SELECT * FROM Tests WHERE TestID = @TestID";
-            using (SqlCommand command = new SqlCommand(query, connection))
+           
+            using (SqlCommand command = new SqlCommand("SP_GetTestInfoByID", connection))
             {
+                    command.CommandType = CommandType.StoredProcedure;
                 command.Parameters.AddWithValue("@TestID", TestID);
                 connection.Open();
                 using (SqlDataReader reader = command.ExecuteReader())
@@ -43,11 +44,11 @@ public class clsTestData
         int testID = -1;
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            string query = @"INSERT INTO Tests (TestAppointmentID, TestResult, Notes, CreatedByUserID)
-                                 VALUES (@TestAppointmentID, @TestResult, @Notes, @CreatedByUserID);
-                                 SELECT SCOPE_IDENTITY();";
-            using (SqlCommand command = new SqlCommand(query, connection))
+           
+            using (SqlCommand command = new SqlCommand("SP_AddNewTest", connection))
             {
+                    command.CommandType = CommandType.StoredProcedure;
+
                 command.Parameters.AddWithValue("@TestAppointmentID", TestAppointmentID);
                 command.Parameters.AddWithValue("@TestResult", TestResult);
                 command.Parameters.AddWithValue("@Notes", string.IsNullOrEmpty(Notes) ? (object)DBNull.Value : Notes);
@@ -67,14 +68,10 @@ public class clsTestData
         int rowsAffected = 0;
         using (SqlConnection connection = new SqlConnection(connectionString))
         {
-            string query = @"UPDATE Tests 
-                                 SET TestAppointmentID = @TestAppointmentID,
-                                    TestResult = @TestResult,
-                                     Notes = @Notes,
-                                     CreatedByUserID = @CreatedByUserID
-                                 WHERE TestID = @TestID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+          
+                using (SqlCommand command = new SqlCommand("SP_UpdateTest", connection))
                 {
+                    command.CommandType= CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@TestID", TestID);
                     command.Parameters.AddWithValue("@TestAppointmentID", TestAppointmentID);
                     command.Parameters.AddWithValue("@TestResult", TestResult);
@@ -93,9 +90,10 @@ public class clsTestData
             int rowsAffected = 0;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "DELETE FROM Tests WHERE TestID = @TestID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+    
+                using (SqlCommand command = new SqlCommand("SP_DeleteTest", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@TestID", TestID);
                     connection.Open();
                     rowsAffected = command.ExecuteNonQuery();
@@ -109,9 +107,9 @@ public class clsTestData
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Tests";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetAllTests", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {

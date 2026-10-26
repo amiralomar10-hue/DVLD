@@ -13,8 +13,8 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
-            SqlCommand command = new SqlCommand(query, connection);
+           SqlCommand command = new SqlCommand("SP_GetLocalDrivingLicenseApplicationInfoByID", connection);
+            command.CommandType = CommandType.StoredProcedure;
             command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
 
             try
@@ -47,8 +47,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM LocalDrivingLicenseApplications WHERE ApplicationID = @ApplicationID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLocalDrivingLicenseApplicationInfoByApplicationID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
 
             try
@@ -82,31 +83,12 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                string query = @"SELECT 
-    LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID AS [L.D.L.AppID],
-    LicenseClasses.ClassName AS [Driving Class],
-    People.NationalNo AS [National No],
-    People.FirstName + ' ' + People.SecondName + ' ' + ISNULL(People.ThirdName + ' ', '') + People.LastName AS [Full Name],
-    Applications.ApplicationDate AS [Application Date],
-    (
-        SELECT COUNT(TestAppointments.TestTypeID)
-        FROM TestAppointments 
-        INNER JOIN Tests ON TestAppointments.TestAppointmentID = Tests.TestAppointmentID
-        WHERE TestAppointments.LocalDrivingLicenseApplicationID = LocalDrivingLicenseApplications.LocalDrivingLicenseApplicationID
-          AND Tests.TestResult = 1
-    ) AS [Passed Tests],
-    CASE 
-        WHEN Applications.ApplicationStatus = 1 THEN 'New'
-        WHEN Applications.ApplicationStatus = 2 THEN 'Cancelled'WHEN Applications.ApplicationStatus = 3 THEN 'Completed'
-        ELSE 'Unknown'
-    END AS [Status]
-FROM LocalDrivingLicenseApplications
-INNER JOIN Applications ON LocalDrivingLicenseApplications.ApplicationID = Applications.ApplicationID
-INNER JOIN LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID
-INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
+  
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_ListALLLocalDrivingLicenseAppLications", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     try
                     {
                         connection.Open();
@@ -131,10 +113,10 @@ INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
         {
             int LocalDrivingLicenseApplicationID = -1;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"INSERT INTO LocalDrivingLicenseApplications (ApplicationID, LicenseClassID)
-                             VALUES (@ApplicationID, @LicenseClassID);
-                             SELECT SCOPE_IDENTITY();";
-            SqlCommand command = new SqlCommand(query, connection);
+
+            SqlCommand command = new SqlCommand("SP_AddNewLocalDrivingLicenseApplication", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 
@@ -163,12 +145,10 @@ INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"UPDATE LocalDrivingLicenseApplications
-                             SET ApplicationID = @ApplicationID,
-                                 LicenseClassID = @LicenseClassID
-                             WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID";
+           
+            SqlCommand command = new SqlCommand("SP_UpdateLocalDrivingLicenseApplication", connection);
+            command.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand command = new SqlCommand(query, connection);
             command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
             command.Parameters.AddWithValue("@ApplicationID", ApplicationID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
@@ -194,7 +174,9 @@ INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"DELETE FROM LocalDrivingLicenseApplications WHERE LocalDrivingLicenseApplicationID = @LocalDrivingLicenseApplicationID"; SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_DeleteLocalDrivingLicenseApplication", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LocalDrivingLicenseApplicationID", LocalDrivingLicenseApplicationID);
 
             try
@@ -218,12 +200,9 @@ INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
         {
             int id = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"SELECT LocalDrivingLicenseApplications.ApplicationID  
-                             FROM Applications INNER JOIN
-                             LocalDrivingLicenseApplications ON Applications.ApplicationID = LocalDrivingLicenseApplications.ApplicationID INNER JOIN
-                             LicenseClasses ON LocalDrivingLicenseApplications.LicenseClassID = LicenseClasses.LicenseClassID
-                             WHERE ApplicantPersonID = @PersonID AND LicenseClasses.LicenseClassID = @LicenseClassID AND ApplicationStatus = @Status";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_IsExistLocalDrivingLicenseApplication", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@PersonID", PersonID);
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
             command.Parameters.AddWithValue("@Status", Status);
@@ -254,15 +233,10 @@ INNER JOIN People ON Applications.ApplicantPersonID = People.PersonID;";
 
             using (SqlConnection connection = new SqlConnection(connectionstring))
             {
-                string query = @"SELECT Licenses.LicenseID 
-                                 FROM Licenses 
-                                 INNER JOIN Drivers ON Licenses.DriverID = Drivers.DriverID
-                                 WHERE Drivers.PersonID = @PersonID 
-                                   AND Licenses.LicenseClassID = @LicenseClassID 
-                                   AND Licenses.IsActive = 1;";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetActiveLicenseIDByPersonID", connection))
                 {
+                                command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@PersonID", PersonID);
                     command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 

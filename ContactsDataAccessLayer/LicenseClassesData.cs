@@ -12,8 +12,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM LicenseClasses WHERE LicenseClassID = @LicenseClassID";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLicenseClassInfoByID", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
 
             try
@@ -49,8 +50,9 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM LicenseClasses WHERE ClassName = @ClassName";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetLicenseClassInfoClassName", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ClassName", ClassName);
 
             try
@@ -85,8 +87,8 @@ namespace DVLDDataAccessLayer
         {
             DataTable dt = new DataTable();
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = "SELECT * FROM LicenseClasses";
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_GetAllLicenseClasses", connection);
+            command.CommandType = CommandType.StoredProcedure;
 
             try
             {
@@ -113,11 +115,10 @@ namespace DVLDDataAccessLayer
         {
             int LicenseClassID = -1;    
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"INSERT INTO LicenseClasses (ClassName, ClassDescription, MinimumAllowedAge, DefaultValidityLength, ClassFees)
-                             VALUES (@ClassName, @ClassDescription, @MinimumAllowedAge, @DefaultValidityLength, @ClassFees);
-                             SELECT SCOPE_IDENTITY();";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_AddNewLicenseClass", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@ClassName", ClassName);
             command.Parameters.AddWithValue("@ClassDescription", ClassDescription);
             command.Parameters.AddWithValue("@MinimumAllowedAge", MinimumAllowedAge);
@@ -149,15 +150,10 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionstring);
-            string query = @"UPDATE LicenseClasses
-                             SET ClassName = @ClassName,
-                                 ClassDescription = @ClassDescription,
-                                 MinimumAllowedAge = @MinimumAllowedAge,
-                                 DefaultValidityLength = @DefaultValidityLength,
-                                 ClassFees = @ClassFees
-                             WHERE LicenseClassID = @LicenseClassID";
 
-            SqlCommand command = new SqlCommand(query, connection);
+            SqlCommand command = new SqlCommand("SP_UpdateLicenseClass", connection);
+            command.CommandType = CommandType.StoredProcedure;
+
             command.Parameters.AddWithValue("@LicenseClassID", LicenseClassID);
             command.Parameters.AddWithValue("@ClassName", ClassName);
             command.Parameters.AddWithValue("@ClassDescription", ClassDescription);

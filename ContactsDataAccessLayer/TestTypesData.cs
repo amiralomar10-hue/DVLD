@@ -16,10 +16,10 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM TestTypes";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+              
+                using (SqlCommand command = new SqlCommand("SP_GetAllTestTypes", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     try
                     {
                         connection.Open();
@@ -48,10 +48,11 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM TestTypes WHERE TestTypeID = @TestTypeID";
+                
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetTestTypeByID", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@TestTypeID", testTypeID);
 
                     try
@@ -85,14 +86,12 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"UPDATE TestTypes 
-                                SET TestTypeTitle = @Title, 
-                                    TestTypeDescription = @Description, 
-                                    TestTypeFees = @Fees 
-                                WHERE TestTypeID = @TestTypeID";
+               
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_UpdateTestType", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@TestTypeID", testTypeID);
                     command.Parameters.AddWithValue("@Title", title);
                     command.Parameters.AddWithValue("@Description", string.IsNullOrEmpty(description) ? (object)DBNull.Value : description);

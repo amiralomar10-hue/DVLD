@@ -15,9 +15,9 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Drivers WHERE DriverID = @DriverID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetDriverInfoByID", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@DriverID", DriverID);
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
@@ -40,11 +40,9 @@ namespace DVLDDataAccessLayer
             int driverID = -1;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"INSERT INTO Drivers (PersonID, CreatedByUserID, CreatedDate)
-                                 VALUES (@PersonID, @CreatedByUserID, @CreatedDate);
-                                 SELECT SCOPE_IDENTITY();";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_AddNewDriver", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
                     command.Parameters.AddWithValue("@PersonID", PersonID);
                     command.Parameters.AddWithValue("@CreatedByUserID", CreatedByUserID);
                     command.Parameters.AddWithValue("@CreatedDate", CreatedDate);
@@ -58,65 +56,21 @@ namespace DVLDDataAccessLayer
             return driverID;
         }
 
-        public static bool UpdateDriver(int DriverID, int PersonID, int CreatedByUserID, DateTime CreatedDate)
-        {
-            int rowsAffected = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = @"UPDATE Drivers 
-                                 SET PersonID = @PersonID, CreatedByUserID = @CreatedByUserID, CreatedDate = @CreatedDate
-                                 WHERE DriverID = @DriverID";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@DriverID", DriverID);
-                    command.Parameters.AddWithValue("@PersonID", PersonID);
-                    command.Parameters.AddWithValue("@CreatedByUserID", CreatedByUserID);
-                    command.Parameters.AddWithValue("@CreatedDate", CreatedDate);
-
-                    connection.Open();
-                    rowsAffected = command.ExecuteNonQuery();
-                }
-            }
-            return rowsAffected > 0;
-        }
-
-        public static bool DeleteDriver(int DriverID)
-        {
-            int rowsAffected = 0;
-            using (SqlConnection connection = new SqlConnection(connectionString))
-            {
-                string query = "DELETE FROM Drivers WHERE DriverID = @DriverID";
-                using (SqlCommand command = new SqlCommand(query, connection))
-                {
-                    command.Parameters.AddWithValue("@DriverID", DriverID);
-                    connection.Open();
-                    rowsAffected = command.ExecuteNonQuery();
-                }
-            }
-            return rowsAffected > 0;
-        }
-
         public static DataTable GetAllDrivers()
         {
 
             DataTable dt = new DataTable();
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"SELECT 
-                            Drivers.DriverID AS [Driver ID], 
-                            Drivers.PersonID AS [Person ID], 
-                            People.NationalNo AS [National No],
-                            People.FirstName + ' ' + People.SecondName + ' ' + ISNULL(People.ThirdName + ' ', '') + People.LastName AS [Full Name], 
-                            Drivers.CreatedDate AS [Date],
-                            (SELECT COUNT(*) FROM Licenses WHERE Licenses.DriverID = Drivers.DriverID AND Licenses.IsActive = 1) AS [Active Licenses]
-                         FROM Drivers 
-                         INNER JOIN People ON Drivers.PersonID = People.PersonID";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetAllDrivers", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())
                     {
+
                         if (reader.HasRows) dt.Load(reader);
                     }
                 }
@@ -128,9 +82,10 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM Drivers WHERE PersonID = @PersonID";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetDriverInfoByPersonID", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@PersonID", PersonID);
                     connection.Open();
                     using (SqlDataReader reader = command.ExecuteReader())

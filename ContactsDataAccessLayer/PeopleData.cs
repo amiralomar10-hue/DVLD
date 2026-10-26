@@ -24,9 +24,8 @@ namespace DVLDDataAccessLayer
             DataTable dt = new DataTable();
 
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "SELECT People.PersonID, People.NationalNo, People.FirstName, People.SecondName, People.ThirdName, People.LastName, People.DateOfBirth , \r\n CASE\r\n         WHEN People.Gendor = 0 THEN 'Male'\r\n\t     ELSE 'Femail'\r\n\t\t END AS Gendor , People.Address, People.Phone, People.Email, Countries.CountryName, \r\n                  People.ImagePath\r\nFROM     People INNER JOIN\r\n                  Countries ON People.NationalityCountryID = Countries.CountryID";
-            SqlCommand cmd = new SqlCommand(query, connection);
-
+            SqlCommand cmd = new SqlCommand("SP_GetAllPeople", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
             try
             {
                 connection.Open();
@@ -53,10 +52,9 @@ namespace DVLDDataAccessLayer
             int PeopleID = -1;
 
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"INSERT INTO People(NationalNo,FirstName,SecondName,ThirdName,LastName,DateOfBirth,Gendor,Address,Phone,Email,NationalityCountryID,ImagePath)
-                 VALUES(@NationalNo,@FirstName,@SecondName,@ThirdName,@LastName,@DateOfBirth,@Gendor,@Address,@Phone,@Email,@NationalityCountryID,@ImagePath); 
-                 SELECT SCOPE_IDENTITY();";
-            SqlCommand cmd = new SqlCommand(query, connection);
+           
+            SqlCommand cmd = new SqlCommand("SP_AddNewPeople", connection);
+            cmd.CommandType= CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@NationalNo", nationalNo);
             cmd.Parameters.AddWithValue("@FirstName", firstName);
             cmd.Parameters.AddWithValue("@SecondName", secondName);
@@ -108,9 +106,10 @@ namespace DVLDDataAccessLayer
         {
             bool isFound = false;
             SqlConnection conn = new SqlConnection(connectionString);
-            string query = "SELECT * FROM People\r\nwhere PersonID = @person";
+         
+            SqlCommand cmd = new SqlCommand("SP_GetPersonByPersonID", conn);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand cmd = new SqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@person", personID);
             try
             {
@@ -173,23 +172,9 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = @"UPDATE People
-                     SET
-                        NationalNo = @nationalNo,
-                        FirstName = @FirstName,
-                         SecondName = @secondName,
-                         ThirdName = @thirdName,
-                         LastName = @lastName,
-                         Email = @email,
-                         Phone = @phone,
-                         Gendor = @gendor,
-                         Address = @address,
-                         NationalityCountryID = @nationalityCountryID,
-                         DateOfBirth = @DateOfBirth,
-                         ImagePath = @ImagePath
-                     WHERE PersonID = @PersonID;";
-
-            SqlCommand cmd = new SqlCommand(query, connection);
+      
+            SqlCommand cmd = new SqlCommand("SP_UpdatePerson", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@personID", personID);
             cmd.Parameters.AddWithValue("@nationalNo", nationalNo);
             cmd.Parameters.AddWithValue("@firstName", firstName);
@@ -237,9 +222,9 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM People WHERE NationalNo = @NationalNo";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlCommand cmd = new SqlCommand("SP_GetPersonByNationalNo", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@NationalNo", NationalNo);
                     try
                     {
@@ -276,9 +261,10 @@ namespace DVLDDataAccessLayer
         {
             int rowsAffected = 0;
             SqlConnection connection = new SqlConnection(connectionString);
-            string query = "DELETE FROM People\r\n      WHERE PersonID = @personID";
+  
+            SqlCommand cmd = new SqlCommand("SP_DeletePerson", connection);
+            cmd.CommandType = CommandType.StoredProcedure;
 
-            SqlCommand cmd = new SqlCommand(query, connection);
             cmd.Parameters.AddWithValue("@personID", personID);
             try
             {
@@ -297,9 +283,9 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT Found = 1  FROM People WHERE PersonID = @PersonID";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlCommand cmd = new SqlCommand("SP_IsExistPerson", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@PersonID", PersonID);
                     try
                     {
@@ -326,9 +312,11 @@ namespace DVLDDataAccessLayer
             bool isFound = false;
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
-                string query = "SELECT Found = 1  FROM People WHERE NationalNo = @NationalNo";
-                using (SqlCommand cmd = new SqlCommand(query, conn))
+              
+                using (SqlCommand cmd = new SqlCommand("SP_IsExistPersonByNo", conn))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
+
                     cmd.Parameters.AddWithValue("@NationalNo", NationalNo);
                     try
                     {

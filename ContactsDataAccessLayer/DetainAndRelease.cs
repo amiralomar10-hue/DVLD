@@ -17,10 +17,10 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT * FROM DetainedLicenses WHERE DetainID = @DetainID";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetDetainedLicenseInfoByID", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure; 
                     command.Parameters.AddWithValue("@DetainID", DetainID);
 
                     try
@@ -62,10 +62,10 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = "SELECT TOP 1 * FROM DetainedLicenses WHERE LicenseID = @LicenseID ORDER BY DetainID DESC";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetDetainedLicenseInfoByLicenseID", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@LicenseID", LicenseID);
 
                     try
@@ -105,14 +105,12 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"INSERT INTO DetainedLicenses 
-                                (LicenseID, DetainDate, FineFees, CreatedByUserID, IsReleased, ReleaseDate, ReleasedByUserID, ReleaseApplicationID)
-                                VALUES 
-                                (@LicenseID, @DetainDate, @FineFees, @CreatedByUserID, 0, NULL, NULL, NULL);
-                                SELECT SCOPE_IDENTITY();";
+           
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_AddNewDetainedLicense", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@LicenseID", LicenseID);
                     command.Parameters.AddWithValue("@DetainDate", DetainDate);
                     command.Parameters.AddWithValue("@FineFees", FineFees);
@@ -145,15 +143,11 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"UPDATE DetainedLicenses
-                                SET LicenseID = @LicenseID,
-                                    DetainDate = @DetainDate,
-                                    FineFees = @FineFees,
-                                    CreatedByUserID = @CreatedByUserID
-                                WHERE DetainID = @DetainID";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_UpdateDetainedLicense", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@DetainID", DetainID);
                     command.Parameters.AddWithValue("@LicenseID", LicenseID);
                     command.Parameters.AddWithValue("@DetainDate", DetainDate);
@@ -180,15 +174,11 @@ namespace DVLDDataAccessLayer
             int rowsAffected = 0;   
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"UPDATE DetainedLicenses
-                                SET IsReleased = 1,
-                                    ReleaseDate = @ReleaseDate,
-                                    ReleasedByUserID = @ReleasedByUserID,
-                                    ReleaseApplicationID = @ReleaseApplicationID
-                                WHERE DetainID = @DetainID";
-
-                using (SqlCommand command = new SqlCommand(query, connection))
+               
+                using (SqlCommand command = new SqlCommand("SP_ReleaseDetainedLicense", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@DetainID", DetainID);
                     command.Parameters.AddWithValue("@ReleaseDate", DateTime.Now);
                     command.Parameters.AddWithValue("@ReleasedByUserID", ReleasedByUserID);
@@ -215,11 +205,11 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"SELECT IsDetained = 1 FROM DetainedLicenses 
-                                WHERE LicenseID = @LicenseID AND IsReleased = 0";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_IsLicenseDetained", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     command.Parameters.AddWithValue("@LicenseID", LicenseID);
 
                     try
@@ -247,27 +237,11 @@ namespace DVLDDataAccessLayer
 
             using (SqlConnection connection = new SqlConnection(connectionString))
             {
-                string query = @"SELECT 
-    DetainedLicenses.DetainID AS [D.ID],
-    DetainedLicenses.LicenseID AS [L.ID],
-    DetainedLicenses.DetainDate AS [D Date],
-    DetainedLicenses.FineFees AS [Fine Fees],
-    People.NationalNo AS [N.No],
-    ISNULL(People.FirstName, '') + ' ' + 
-    ISNULL(People.SecondName, '') + ' ' + 
-    ISNULL(People.ThirdName, '') + ' ' + 
-    ISNULL(People.LastName, '') AS [Full Name], 
-	DetainedLicenses.IsReleased AS [Is Released],
-    DetainedLicenses.ReleaseDate AS [Release Date],
-    DetainedLicenses.ReleaseApplicationID AS [Release App ID]
-FROM DetainedLicenses 
-INNER JOIN Licenses ON DetainedLicenses.LicenseID = Licenses.LicenseID
-INNER JOIN Drivers ON Licenses.DriverID = Drivers.DriverID
-INNER JOIN People ON Drivers.PersonID = People.PersonID
-LEFT JOIN Applications ON DetainedLicenses.ReleaseApplicationID = Applications.ApplicationID";
 
-                using (SqlCommand command = new SqlCommand(query, connection))
+                using (SqlCommand command = new SqlCommand("SP_GetAllDetainedLicenses", connection))
                 {
+                    command.CommandType = CommandType.StoredProcedure;
+
                     try
                     {
                         connection.Open();
